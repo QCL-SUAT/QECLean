@@ -1,0 +1,56 @@
+name = "QEC"
+version = "0.1.0"
+keywords = ["math"]
+defaultTargets = ["QEC"]
+
+[leanOptions]
+pp.unicode.fun = true # pretty-prints `fun a ↦ b`
+autoImplicit = false
+relaxedAutoImplicit = false
+weak.linter.mathlibStandardSet = true
+maxSynthPendingDepth = 3
+
+[[require]]
+name = "mathlib"
+git = "https://github.com/leanprover-community/mathlib4.git"
+rev = "master-2026-08-21"
+
+# Blueprint extraction (https://github.com/hanwenzhu/LeanArchitect) is
+# DISABLED in this local port: LeanArchitect only publishes one tag per
+# toolchain, and there is no v4.34.0-rc1 tag. The blueprint is not part of
+# the library proper -- re-enable it (and the QECBlueprint lean_lib below)
+# once a matching LeanArchitect tag exists.
+#[[require]]
+#name = "LeanArchitect"
+#git = "https://github.com/hanwenzhu/LeanArchitect.git"
+#rev = "v4.34.0-rc1"
+
+[[lean_lib]]
+name = "QEC"
+
+# Light import surface for memory-constrained environments; excludes the
+# BivariateBicycle leaves, which need more than a 4-core container or a shared
+# web-editor session has. Deliberately not in `defaultTargets` — `lake build`
+# still means the full library. See `QECLight.lean`.
+[[lean_lib]]
+name = "QECLight"
+
+# Blueprint annotations for the whole library (root module `QECBlueprint.lean`).
+# Disabled in this local port along with the LeanArchitect require above --
+# `QECBlueprint.lean` imports `Architect`, which this port does not have.
+#[[lean_lib]]
+#name = "QECBlueprint"
+
+[[lean_lib]]
+name = "Foundations"
+srcDir = "QEC"
+
+# Infoview widgets (root module `QECWidgets.lean`): Pauli support strips,
+# commutation parity views, and friends, built on ProofWidgets (already a
+# transitive dependency via mathlib — no new `require`). Deliberately NOT in
+# `defaultTargets` (same policy as QECBlueprint): only this target imports
+# ProofWidgets, and `lake build` stays the plain library build. Build with
+# `lake build QECWidgets`; it is part of the pre-push checklist in CLAUDE.md.
+[[lean_lib]]
+name = "QECWidgets"
+

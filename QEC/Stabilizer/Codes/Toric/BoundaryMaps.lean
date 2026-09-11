@@ -1,0 +1,122 @@
+import Mathlib.Tactic
+import QEC.Stabilizer.Codes.Toric.Chains
+
+namespace Quantum
+namespace Stabilizer
+namespace Lattice
+
+open scoped BigOperators
+
+variable (L : ℕ) [Fact (0 < L)]
+
+/-- Boundary map `∂2 : C2 → C1` for the toric square cellulation over `ZMod 2`.
+-/
+def toricBoundary2 : C2 L →ₗ[ZMod 2] C1 L where
+  toFun f :=
+    fun e => match e with
+      | EdgeIdx.h x y => f (x, y) + f (x, prev L y)
+      | EdgeIdx.v x y => f (x, y) + f (prev L x, y)
+  map_add' := by
+    intro f g
+    ext e
+    cases e <;> simp [add_assoc, add_comm, add_left_comm]
+  map_smul' := by
+    intro a f
+    ext e
+    cases e <;> simp [mul_add]
+
+/-- Boundary map `∂1 : C1 → C0` for the toric square cellulation over `ZMod 2`.
+-/
+def toricBoundary1 : C1 L →ₗ[ZMod 2] C0 L where
+  toFun c :=
+    fun v =>
+      c (EdgeIdx.h v.1 v.2) + c (EdgeIdx.h (prev L v.1) v.2) +
+      c (EdgeIdx.v v.1 v.2) + c (EdgeIdx.v v.1 (prev L v.2))
+  map_add' := by
+    intro c d
+    ext v
+    simp [add_assoc, add_comm, add_left_comm]
+  map_smul' := by
+    intro a c
+    ext v
+    simp [mul_add, add_assoc]
+
+/-!
+## Notation
+
+The scoped `ToricChain` notation renders the toric boundary maps the way the
+homological narrative writes them: `∂₂ L f`, `∂₁ L c` (and `δ⁰ L s` for the
+vertex cut map, declared next to it in `H1Dimension.lean`). The lattice size
+stays an explicit argument, exactly as for the underlying constants — `∂₁ L`,
+`∂₁ (L := L)` — so the conversion is purely notational: `toricBoundary1` is
+still the declaration name for `simp [toricBoundary1]`, `unfold`, and lemma
+names. Enable with `open scoped ToricChain`.
+-/
+
+/-- `∂₂` is the toric face-boundary map `toricBoundary2 : C2 L →ₗ[ZMod 2] C1 L`,
+with the lattice size explicit: `∂₂ L f`. Scoped: `open scoped ToricChain`. -/
+scoped[ToricChain] notation "∂₂" => Quantum.Stabilizer.Lattice.toricBoundary2
+
+/-- `∂₁` is the toric edge-boundary map `toricBoundary1 : C1 L →ₗ[ZMod 2] C0 L`,
+with the lattice size explicit: `∂₁ L c`. Scoped: `open scoped ToricChain`. -/
+scoped[ToricChain] notation "∂₁" => Quantum.Stabilizer.Lattice.toricBoundary1
+
+/-- Defining equation of `∂₁` at a vertex, in the form the v4.34 elaborator can
+use: `simp [toricBoundary1]` unfolds the definition but no longer reduces the
+resulting structure-literal application, so proofs that need the four-term form
+should rewrite with this lemma instead. -/
+lemma toricBoundary1_apply (c : C1 L) (x y : Fin L) :
+    toricBoundary1 (L := L) c (x, y) =
+      c (EdgeIdx.h x y) + c (EdgeIdx.h (prev L x) y) +
+        c (EdgeIdx.v x y) + c (EdgeIdx.v x (prev L y)) := rfl
+
+/-- Defining equation of `∂₂` at an edge, in the same spirit as
+`toricBoundary1_apply`. -/
+lemma toricBoundary2_apply_h (f : C2 L) (x y : Fin L) :
+    toricBoundary2 (L := L) f (EdgeIdx.h x y) = f (x, y) + f (x, prev L y) := rfl
+
+/-- Defining equation of `∂₂` at a vertical edge (`toricBoundary2_apply_h`'s
+companion). -/
+lemma toricBoundary2_apply_v (f : C2 L) (x y : Fin L) :
+    toricBoundary2 (L := L) f (EdgeIdx.v x y) = f (x, y) + f (prev L x, y) := rfl
+
+open scoped ToricChain
+
+@[simp] lemma toricBoundary2_singleFace_apply_h (x y x' y' : Fin L) :
+    ∂₂ (L := L) (singleFace (x, y)) (EdgeIdx.h x' y') =
+      (if (x', y') = (x, y) then (1 : ZMod 2) else 0) +
+      (if (x', prev L y') = (x, y) then (1 : ZMod 2) else 0) := by
+  simp [toricBoundary2, singleFace]
+
+@[simp] lemma toricBoundary2_singleFace_apply_v (x y x' y' : Fin L) :
+    ∂₂ (L := L) (singleFace (x, y)) (EdgeIdx.v x' y') =
+      (if (x', y') = (x, y) then (1 : ZMod 2) else 0) +
+      (if (prev L x', y') = (x, y) then (1 : ZMod 2) else 0) := by
+  simp [toricBoundary2, singleFace]
+
+@[simp] lemma toricBoundary1_singleEdge_apply
+    (e : EdgeIdx L) (v : VtxIdx L) :
+    ∂₁ (L := L) (singleEdge e) v =
+      singleEdge e (EdgeIdx.h v.1 v.2) +
+      singleEdge e (EdgeIdx.h (prev L v.1) v.2) +
+      singleEdge e (EdgeIdx.v v.1 v.2) +
+      singleEdge e (EdgeIdx.v v.1 (prev L v.2)) := by
+  simp [toricBoundary1]
+
+/-- Chain-complex law for toric boundaries. -/
+theorem toricBoundary_comp_zero :
+    (∂₁ (L := L)).comp (∂₂ (L := L)) = 0 := by
+  ext f v
+  simp [LinearMap.comp_apply, toricBoundary1, toricBoundary2,
+    add_assoc, add_comm, add_left_comm]
+  ring_nf
+  grind
+/-- Pointwise corollary of `toricBoundary_comp_zero`. -/
+theorem toricBoundary_comp_zero_apply (f : C2 L) :
+    ∂₁ (L := L) (∂₂ (L := L) f) = 0 := by
+  have h := congrArg (fun T => T f) (toricBoundary_comp_zero (L := L))
+  simpa using h
+
+end Lattice
+end Stabilizer
+end Quantum
