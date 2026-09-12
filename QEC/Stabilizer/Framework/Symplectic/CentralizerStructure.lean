@@ -203,9 +203,9 @@ lemma sympBilinForm_orthogonal_sup (P Q : Submodule (ZMod 2) (Fin (n + n) → ZM
   -- `isOrtho_def` step is dropped from the rewrite list.
   rw [map_add, LinearMap.add_apply,
     show (sympBilinForm n) p m = 0 from
-      LinearMap.BilinForm.isOrtho_def.mp ((LinearMap.BilinForm.mem_orthogonal_iff.mp hm.1) p hp),
+      ((LinearMap.BilinForm.mem_orthogonal_iff.mp hm.1) p hp),
     show (sympBilinForm n) q m = 0 from
-      LinearMap.BilinForm.isOrtho_def.mp ((LinearMap.BilinForm.mem_orthogonal_iff.mp hm.2) q hq),
+      ((LinearMap.BilinForm.mem_orthogonal_iff.mp hm.2) q hq),
     add_zero]
 
 end BilinForm
@@ -328,9 +328,9 @@ theorem operators_eq_stab_of_commutes_both_logicals (C : StabilizerCodeWithLogic
     obtain ⟨hwV, hwU⟩ := hw
     rw [hU, Submodule.mem_span_pair] at hwU
     obtain ⟨a, b, hab⟩ := hwU
-    have hwz : sympBilinForm n w zv = 0 := LinearMap.BilinForm.isOrtho_def.mp
+    have hwz : sympBilinForm n w zv = 0 :=
       ((LinearMap.BilinForm.mem_orthogonal_iff.mp hzv_V) w hwV)
-    have hwx : sympBilinForm n w xv = 0 := LinearMap.BilinForm.isOrtho_def.mp
+    have hwx : sympBilinForm n w xv = 0 :=
       ((LinearMap.BilinForm.mem_orthogonal_iff.mp hxv_V) w hwV)
     have ha : a = 0 := by
       have e : sympBilinForm n w zv = a := by

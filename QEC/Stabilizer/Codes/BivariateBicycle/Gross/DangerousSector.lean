@@ -186,9 +186,9 @@ private lemma liftC2_add (f f' : BaseGroup → ZMod 2) :
     = (if i = coverSec (coverPi i) then f (coverPi i) else 0)
       + (if i = coverSec (coverPi i) then f' (coverPi i) else 0)
   by_cases h : i = coverSec (coverPi i)
-  · rw [if_pos h, if_pos h, if_pos h]
+  · rw [ite_eq_left h, ite_eq_left h, ite_eq_left h]
     rfl
-  · rw [if_neg h, if_neg h, if_neg h, add_zero]
+  · rw [ite_eq_right h, ite_eq_right h, ite_eq_right h, add_zero]
 
 /-! ## The hexagon rung (`m(hexagon) ≥ 3`) -/
 
@@ -412,8 +412,8 @@ lemma dpair_weight : ∀ g : BaseGroup, ∀ d ∈ pairDirections,
     rw [bbBoundary2Fn_add, Pi.add_apply, bbBoundary2Fn_single_pt,
       bbBoundary2Fn_single_pt, sub_add_eq_sub_sub]
     by_cases hj : j.2 = 0
-    · rw [if_pos hj, if_pos hj, if_pos hj]
-    · rw [if_neg hj, if_neg hj, if_neg hj]
+    · rw [ite_eq_left hj, ite_eq_left hj, ite_eq_left hj]
+    · rw [ite_eq_right hj, ite_eq_right hj, ite_eq_right hj]
   have htrans : (Finset.univ.filter fun j : BaseGroup × Fin 2 =>
       (if j.2 = 0 then baseA (j.1 - g) + baseA (j.1 - g - d)
         else baseB (j.1 - g) + baseB (j.1 - g - d)) ≠ 0).card
@@ -571,7 +571,7 @@ theorem dangerous_dpair_bound (g d : BaseGroup) (hd : d ∈ pairDirections)
           ≤ 2 * (if b₁ j ≠ 0 ∨ b₂ j ≠ 0 then 1 else 0) := by
         intro j
         by_cases hUj : b₁ j ≠ 0 ∨ b₂ j ≠ 0
-        · rw [if_pos hUj]
+        · rw [ite_eq_left hUj]
           simp only [Pi.add_apply]
           have key : ∀ a β₁ β₂ : ZMod 2, (β₁ ≠ 0 ∨ β₂ ≠ 0) →
               ((if a ≠ 0 then 1 else 0) : ℕ)

@@ -321,10 +321,10 @@ theorem toric_finrank_dualCycles :
       -- submodule equality, then rewrite.
       have hbridge1 : (LinearMap.toMatrix' (toricDualBoundary L)).mulVecLin.range =
           (toricDualBoundary L).range := by
-        ext x; simp [Matrix.toLin'_toMatrix']
+        ext x; simp
       have hbridge2 : (LinearMap.toMatrix' (∂₂ (L := L))).mulVecLin.range =
           (∂₂ (L := L)).range := by
-        ext x; simp [Matrix.toLin'_toMatrix']
+        ext x; simp
       apply Iff.intro
       · intro h
         rw [hbridge1, hbridge2]
@@ -380,12 +380,14 @@ noncomputable def phiDualLinearMap :
     exact Prod.ext hh hv)
 
 set_option backward.isDefEq.respectTransparency false in
+set_option linter.unnecessarySeqFocus false in
 /-- `phiDual` agrees with `phiDualLinearMap`. -/
 theorem phiDual_eq_phiDualLinearMap (x : toricDualH1 (L := L)) :
     phiDual (L := L) x = phiDualLinearMap (L := L) x := by
   -- v4.34: `convert rfl` no longer closes this definitional identity.
   rfl
 
+set_option linter.unnecessarySeqFocus false in
 set_option backward.isDefEq.respectTransparency false in
 /-
 `phiDual` is injective.

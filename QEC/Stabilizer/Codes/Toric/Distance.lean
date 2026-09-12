@@ -38,7 +38,7 @@ theorem toricCodeN_distance_eq_min_dX_dZ (dX dZ : ℕ)
     (hx : HasToricXDistance L dX) (hz : HasToricZDistance L dZ) :
     HasCodeDistance (toricStabilizerCode L) (Nat.min dX dZ) := by
   have hL0 : 0 < L := Nat.lt_of_lt_of_le (by decide : 0 < 2) (Fact.out : 2 ≤ L)
-  haveI : Fact (0 < L) := ⟨hL0⟩
+  have : Fact (0 < L) := ⟨hL0⟩
   obtain ⟨hdXpos, hxLB, hxWit⟩ := hx
   obtain ⟨hdZpos, hzLB, hzWit⟩ := hz
   -- Translate `IsNontrivialLogicalOperator g (toricStabilizerCode L).toStabilizerGroup`

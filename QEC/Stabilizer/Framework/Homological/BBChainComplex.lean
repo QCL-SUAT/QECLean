@@ -263,10 +263,8 @@ lemma conv_assoc (a b c : G → ZMod 2) : (a ⋆ b) ⋆ c = a ⋆ (b ⋆ c) := b
       refine Finset.sum_bij' (fun h _ => h - k) (fun h _ => h + k)
         (fun _ _ => Finset.mem_univ _) (fun _ _ => Finset.mem_univ _) ?_ ?_ ?_
       · intro h _
-        change h - k + k = h
         abel
       · intro h _
-        change h + k - k = h
         abel
       · intro h _
         have h1 : g - h = g - k - (h - k) := by abel
@@ -397,9 +395,9 @@ noncomputable def bbBoundary2 :
       intro p
       simp [Pi.add_apply, mul_add, Finset.sum_add_distrib]
     by_cases hj : j = 0
-    · simp only [bbBoundary2Fn, hj, if_true, Pi.add_apply, conv_apply]
+    · simp only [bbBoundary2Fn, hj, ite_true, Pi.add_apply, conv_apply]
       exact key A
-    · simp only [bbBoundary2Fn, hj, if_false, Pi.add_apply, conv_apply]
+    · simp only [bbBoundary2Fn, hj, ite_false, Pi.add_apply, conv_apply]
       exact key B
   map_smul' s f := by
     ext ⟨h, j⟩
@@ -409,10 +407,10 @@ noncomputable def bbBoundary2 :
       simp only [Pi.smul_apply, smul_eq_mul, Finset.mul_sum]
       refine Finset.sum_congr rfl (fun x _ => ?_); ring
     by_cases hj : j = 0
-    · simp only [bbBoundary2Fn, hj, if_true, RingHom.id_apply, Pi.smul_apply,
+    · simp only [bbBoundary2Fn, hj, ite_true, RingHom.id_apply, Pi.smul_apply,
         smul_eq_mul, conv_apply]
       exact key A
-    · simp only [bbBoundary2Fn, hj, if_false, RingHom.id_apply, Pi.smul_apply,
+    · simp only [bbBoundary2Fn, hj, ite_false, RingHom.id_apply, Pi.smul_apply,
         smul_eq_mul, conv_apply]
       exact key B
 

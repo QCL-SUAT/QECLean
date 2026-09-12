@@ -559,13 +559,13 @@ lemma liftC2_decomp (z : G → ZMod 2) :
   · have h1 : D.liftC2 (D.sheetC2_0 z) g = z g := by
       change (if g = D.sec (D.proj g) then D.sheetC2_0 z (D.proj g) else 0)
         = z g
-      rw [if_pos hg]
+      rw [ite_eq_left hg]
       change z (D.sec (D.proj g)) = z g
       rw [← hg]
     have h2 : D.deckShift0 (D.liftC2 (D.sheetC2_1 z)) g = 0 := by
       change (if g + D.deckS = D.sec (D.proj (g + D.deckS)) then
         D.sheetC2_1 z (D.proj (g + D.deckS)) else 0) = 0
-      rw [if_neg ?_]
+      rw [ite_eq_right ?_]
       intro hcon
       rw [D.proj_add_deckS, ← hg] at hcon
       apply D.deckS_ne_zero
@@ -575,7 +575,7 @@ lemma liftC2_decomp (z : G → ZMod 2) :
   · have h1 : D.liftC2 (D.sheetC2_0 z) g = 0 := by
       change (if g = D.sec (D.proj g) then D.sheetC2_0 z (D.proj g) else 0)
         = 0
-      rw [if_neg ?_]
+      rw [ite_eq_right ?_]
       intro hcon
       have hcontra := hcon.symm.trans hg
       apply D.deckS_ne_zero
@@ -588,7 +588,7 @@ lemma liftC2_decomp (z : G → ZMod 2) :
           D.proj_sec]
       change (if g + D.deckS = D.sec (D.proj (g + D.deckS)) then
         D.sheetC2_1 z (D.proj (g + D.deckS)) else 0) = z g
-      rw [D.proj_add_deckS, if_pos hgd]
+      rw [D.proj_add_deckS, ite_eq_left hgd]
       change z (D.sec (D.proj g) + D.deckS) = z g
       rw [← hg]
     rw [h1, h2, zero_add]
@@ -600,9 +600,9 @@ lemma liftC2_add (ξ η : H → ZMod 2) :
     = (if g = D.sec (D.proj g) then ξ (D.proj g) else 0)
       + (if g = D.sec (D.proj g) then η (D.proj g) else 0)
   by_cases hg : g = D.sec (D.proj g)
-  · rw [if_pos hg, if_pos hg, if_pos hg]
+  · rw [ite_eq_left hg, ite_eq_left hg, ite_eq_left hg]
     rfl
-  · rw [if_neg hg, if_neg hg, if_neg hg, add_zero]
+  · rw [ite_eq_right hg, ite_eq_right hg, ite_eq_right hg, add_zero]
 
 /-! ## The seam decomposition `∂₂ = N + C` -/
 

@@ -198,8 +198,7 @@ private lemma maps_to_codespace_of_conjugation (U : NQubitGate n) (S : Stabilize
     any_goals rw [ ← Finset.mul_sum _ _ _, inv_mul_cancel₀ hv ];
     · have := this g hg
       simp_all +decide
-      convert congr_arg (fun x : NQubitVec n => (Real.sqrt (∑ i, ‖v i‖ ^ 2)) • x) this using 1 <;>
-        norm_num [Matrix.mulVec_smul, smul_smul]
+      convert congr_arg (fun x : NQubitVec n => (Real.sqrt (∑ i, ‖v i‖ ^ 2)) • x) this using 1
       · -- v4.34: the coercion of `U • ⟨…⟩` no longer unfolds under `rw`, so
         -- each side is stated unfolded with `change` first.
         change (g.toMatrix * (U : Matrix (NQubitBasis n) (NQubitBasis n) ℂ)) *ᵥ v =
@@ -232,7 +231,7 @@ def logicalGateGroup (S : StabilizerGroup n) : Subgroup (NQubitGate n) where
   one_mem' := by intro g hg ψ hψ; simp; exact hψ g hg
   mul_mem' := by
     intro a b ha hb
-    simp only [Set.mem_setOf_eq] at ha hb ⊢
+    simp only [Set.mem_ofPred_eq] at ha hb ⊢
     rw [conjugation_iff_maps_codespace (a * b) S] at ⊢
     rw [conjugation_iff_maps_codespace a S] at ha
     rw [conjugation_iff_maps_codespace b S] at hb
@@ -244,7 +243,7 @@ def logicalGateGroup (S : StabilizerGroup n) : Subgroup (NQubitGate n) where
     exact ha (b • ψ) hbψ
   inv_mem' := by
     intro U hU
-    simp only [Set.mem_setOf_eq] at hU ⊢
+    simp only [Set.mem_ofPred_eq] at hU ⊢
     have h_surjective : ∀ v ∈ codespaceSubmodule S,
         ∃ w ∈ codespaceSubmodule S, Matrix.mulVec U.val w = v := by
       intro v hv

@@ -85,7 +85,7 @@ lemma trace_eq_zero_of_ne_identity (g : NQubitPauliGroupElement n)
           if p = NQubitPauliOperator.identity n then (2 : ℂ)^n else 0 := by
           exact
           NQubitPauliGroupElement.NQubitPauliOperator.trace_mul p  (NQubitPauliOperator.identity n)
-      rw [h_trace_zero, if_neg hp_ne_I]
+      rw [h_trace_zero, ite_eq_right hp_ne_I]
     convert h_trace_zero using 1
     rw [show (NQubitPauliOperator.identity n |> NQubitPauliOperator.toMatrix) = 1 from ?_]
     · norm_num
@@ -100,14 +100,14 @@ lemma trace_stabilizerSum (S : StabilizerGroup n) : (stabilizerSum S).trace = (2
       apply Finset.sum_congr rfl
       intro g hg
       by_cases h : g.operators = NQubitPauliOperator.identity n
-      · -- v4.34: the two branches are spelled out; `rw [if_pos]` no longer
+      · -- v4.34: the two branches are spelled out; `rw [ite_eq_left]` no longer
         -- matches the `ite`'s synthesised `Decidable` instance.
         have hg1 : g = 1 :=
           eq_one_of_mem_stabilizer_and_is_scalar S g (Set.mem_toFinset.mp hg) h
-        rw [hg1, if_pos rfl]
+        rw [hg1, ite_eq_left rfl]
         norm_num [NQubitPauliGroupElement.toMatrix_one]
       · have hne : ¬ (g = 1) := fun hg1 => h (by rw [hg1]; rfl)
-        rw [if_neg hne, trace_eq_zero_of_ne_identity g h]
+        rw [ite_eq_right hne, trace_eq_zero_of_ne_identity g h]
     rw [h_trace_sum, Finset.sum_ite_eq']
     split_ifs with h
     · rfl

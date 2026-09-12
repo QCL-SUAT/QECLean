@@ -176,10 +176,10 @@ lemma induced_count_mod_two (g : NQubitPauliGroupElement (n₁ * n₂))
   congr 1
   refine Finset.sum_congr rfl (fun b _ => ?_)
   by_cases hac : anticommutesAt (inducedOuterOp D g) h.operators b
-  · simp only [if_pos hac]
+  · simp only [ite_eq_left hac]
     exact (Nat.odd_iff.mp ((anticommutes_iff_odd_anticommutes _ _).mp
       ((D.induced_block_anticommute_iff g h b (hY b)).mp hac))).symm
-  · simp only [if_neg hac]
+  · simp only [ite_eq_right hac]
     exact (Nat.even_iff.mp (Nat.not_odd_iff_even.mp (fun ho => hac
       ((D.induced_block_anticommute_iff g h b (hY b)).mpr
         ((anticommutes_iff_odd_anticommutes _ _).mpr ho))))).symm
@@ -198,7 +198,7 @@ lemma induced_commute_iff (g : NQubitPauliGroupElement (n₁ * n₂))
 lemma promoteE_mem_concatGeneratorsList (y : NQubitPauliGroupElement n₂)
     (hy : y ∈ D.outerZ ++ D.outerX) :
     promoteE D.Xbar D.Zbar y ∈ NQubitPauliGroupElement.listToSet D.concatGeneratorsList := by
-  simp only [NQubitPauliGroupElement.listToSet, Set.mem_setOf_eq,
+  simp only [NQubitPauliGroupElement.listToSet, Set.mem_ofPred_eq,
     ConcatCSSData.concatGeneratorsList, ConcatCSSData.promotedOuterList, List.mem_append,
     List.mem_map]
   exact Or.inr ⟨y, List.mem_append.mp hy, rfl⟩

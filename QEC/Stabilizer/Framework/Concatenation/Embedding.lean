@@ -102,7 +102,7 @@ def embedBlock (b : Fin n₂) (g : NQubitPauliGroupElement n₁) :
 lemma embedBlockOp_qIdx_ne {b b' : Fin n₂} (h : b ≠ b') (op : NQubitPauliOperator n₁)
     (i : Fin n₁) : embedBlockOp b op (qIdx b' i) = PauliOperator.I := by
   simp only [embedBlockOp, blockOf_qIdx]
-  exact if_neg (Ne.symm h)
+  exact ite_eq_right (Ne.symm h)
 
 @[simp] lemma embedBlock_one (b : Fin n₂) :
     embedBlock b (1 : NQubitPauliGroupElement n₁) = 1 := by
@@ -193,7 +193,7 @@ private lemma anticommutesAt_embedBlock_iff (b : Fin n₂) (g g' : NQubitPauliGr
         NQubitPauliGroupElement.anticommutesAt g.operators g'.operators (posOf q) := by
   by_cases hb : blockOf q = b
   · simp only [NQubitPauliGroupElement.anticommutesAt, embedBlock_operators, embedBlockOp, hb,
-      if_true, true_and]
+      ite_true, true_and]
   · simp only [hb, false_and, iff_false]
     exact not_anticommutesAt_of_left_I _ _ q (by simp [embedBlock_operators, embedBlockOp, hb])
 
@@ -236,7 +236,7 @@ theorem embedBlock_cross_commute {b b' : Fin n₂} (hbb : b ≠ b')
     by_cases hb : blockOf q = b
     · refine not_anticommutesAt_of_right_I _ _ q ?_
       simp only [embedBlock_operators, embedBlockOp, hb]
-      rw [if_neg hbb]
+      rw [ite_eq_right hbb]
     · exact not_anticommutesAt_of_left_I _ _ q (by simp [embedBlock_operators, embedBlockOp, hb])
   rw [hempty, Finset.card_empty]
   exact ⟨0, rfl⟩

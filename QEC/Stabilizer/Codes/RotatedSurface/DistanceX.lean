@@ -90,7 +90,7 @@ theorem rowParity_middleColChain (y : Fin L) :
     simp
   · intro x _ hne
     unfold middleColChain
-    rw [if_neg]
+    rw [ite_eq_right]
     intro hx
     apply hne
     apply Fin.ext

@@ -84,7 +84,6 @@ end NQubitPauliOperator
 
 namespace NQubitPauliGroupElement
 
-open NQubitPauliOperator
 open Submodule
 
 /-- The symplectic orthogonal of a submodule W: vectors v with ⟨v, w⟩_s = 0 for
@@ -155,7 +154,7 @@ theorem no_weight_w_logical_of_centralizer_in_span (L : List (NQubitPauliGroupEl
   have h_comm' : ∀ g' ∈ L, NQubitPauliOperator.symplecticInner g.operators g'.operators = 0 := by
     intro g' hg'
     exact (NQubitPauliOperator.commutes_iff_symplectic_inner_zero g g').1
-      (Eq.symm (h_cent g' (by rw [listToSet, Set.mem_setOf]; exact hg')))
+      (Eq.symm (h_cent g' (by rw [listToSet, Set.mem_ofPred]; exact hg')))
   have h_symp' : NQubitPauliOperator.toSymplectic g.operators ∈ sympSpan L :=
     h_span g.operators hg_weight h_comm'
   obtain ⟨s, hs_closure, hs_eq⟩ := exists_mem_closure_of_symp_in_span L g.operators h_symp'

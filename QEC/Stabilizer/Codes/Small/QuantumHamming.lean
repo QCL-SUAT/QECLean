@@ -206,7 +206,7 @@ theorem hammingRowDot_eq_zero (hr : 3 ≤ r) (a b : Fin r) :
   · intro k hk
     simp only [S, Finset.mem_filter, Finset.mem_univ, true_and] at hk ⊢
     have hka := hk.1; have hkb := hk.2
-    simp only [f, dif_pos hka, xorFlip]
+    simp only [f, dite_eq_left hka, xorFlip]
     have hxor_pos := xor_pos_of_testBit hca.symm hka
     constructor
     · show ((k.val + 1 ^^^ 2 ^ c) - 1 + 1).testBit a.val = true
@@ -220,13 +220,13 @@ theorem hammingRowDot_eq_zero (hr : 3 ≤ r) (a b : Fin r) :
     simp only [S, Finset.mem_filter, Finset.mem_univ, true_and] at hk
     have hka := hk.1
     simp only [f]
-    rw [dif_pos hka]
+    rw [dite_eq_left hka]
     simp only [xorFlip]
     have hxor_pos := xor_pos_of_testBit hca.symm hka
     have hbit_a : ((k.val + 1 ^^^ 2 ^ c) - 1 + 1).testBit a.val = true := by
       rw [Nat.sub_one_add_one_eq_of_pos hxor_pos]
       rwa [testBit_xor_two_pow _ _ _ hca.symm]
-    rw [dif_pos hbit_a]
+    rw [dite_eq_left hbit_a]
     ext
     change ((k.val + 1 ^^^ 2 ^ c) - 1 + 1 ^^^ 2 ^ c) - 1 = k.val
     rw [Nat.sub_one_add_one_eq_of_pos hxor_pos, Nat.xor_xor_cancel_right]; omega
@@ -235,7 +235,7 @@ theorem hammingRowDot_eq_zero (hr : 3 ≤ r) (a b : Fin r) :
     simp only [S, Finset.mem_filter, Finset.mem_univ, true_and] at hk
     have hka := hk.1
     simp only [f]
-    rw [dif_pos hka]
+    rw [dite_eq_left hka]
     intro h
     have heq := congr_arg Fin.val h
     simp only [xorFlip] at heq
@@ -553,12 +553,12 @@ private lemma checkMatrix_generatorsList_Z
   by_cases hlt : idx.val < r
   · have : (generatorsList r).get idx = ZGen r ⟨idx.val, hlt⟩ := by
       simp only [generatorsList, List.get_ofFn, allGen]; simp [hlt]
-    rw [this, dif_pos hlt, checkMatrix_ZGen_Z_part]
+    rw [this, dite_eq_left hlt, checkMatrix_ZGen_Z_part]
   · have h_idx : idx.val - r < r := by omega
     have : (generatorsList r).get idx = XGen r ⟨idx.val - r, h_idx⟩ := by
       simp only [generatorsList, List.get_ofFn, allGen]
       simp [show ¬(idx.val < r) from hlt]
-    rw [this, dif_neg hlt, checkMatrix_XGen_Z_part]
+    rw [this, dite_eq_right hlt, checkMatrix_XGen_Z_part]
 
 set_option backward.isDefEq.respectTransparency false in
 /-- The check matrix entry for the X-component column of a generatorsList entry.
@@ -575,12 +575,12 @@ private lemma checkMatrix_generatorsList_X
   by_cases hlt : idx.val < r
   · have : (generatorsList r).get idx = ZGen r ⟨idx.val, hlt⟩ := by
       simp only [generatorsList, List.get_ofFn, allGen]; simp [hlt]
-    rw [this, dif_pos hlt, checkMatrix_ZGen_X_part]
+    rw [this, dite_eq_left hlt, checkMatrix_ZGen_X_part]
   · have h_idx : idx.val - r < r := by omega
     have : (generatorsList r).get idx = XGen r ⟨idx.val - r, h_idx⟩ := by
       simp only [generatorsList, List.get_ofFn, allGen]
       simp [show ¬(idx.val < r) from hlt]
-    rw [this, dif_neg hlt, checkMatrix_XGen_X_part]
+    rw [this, dite_eq_right hlt, checkMatrix_XGen_X_part]
 
 /-- The sum ∑_{idx} f(idx) * checkMatrix(idx, Z-col k) = ∑_{a:Fin r} f(a) *
 hammingEntry(a,k). -/

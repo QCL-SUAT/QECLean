@@ -193,7 +193,7 @@ open Polynomial in
 `X` in the polynomial domain). -/
 theorem deckRing_ann :
     ∀ w : DeckRing, deckEps * w = 0 → ∃ v, w = deckEps ^ 3 * v := by
-  haveI : NoZeroDivisors (ZMod 2) := ⟨by decide⟩
+  have : NoZeroDivisors (ZMod 2) := ⟨by decide⟩
   intro w hw
   obtain ⟨p, rfl⟩ := Ideal.Quotient.mk_surjective w
   have hmul : deckEps * Ideal.Quotient.mk _ p = Ideal.Quotient.mk _ (X * p) :=

@@ -69,13 +69,13 @@ lemma liftC2_decomp (z : GrossGroup → ZMod 2) :
   · have h1 : liftC2 (sheetC2_0 z) g = z g := by
       change (if g = coverSec (coverPi g) then sheetC2_0 z (coverPi g) else 0)
         = z g
-      rw [if_pos hg]
+      rw [ite_eq_left hg]
       change z (coverSec (coverPi g)) = z g
       rw [← hg]
     have h2 : deckShift0 (liftC2 (sheetC2_1 z)) g = 0 := by
       change (if g + deckS = coverSec (coverPi (g + deckS)) then
         sheetC2_1 z (coverPi (g + deckS)) else 0) = 0
-      rw [if_neg ?_]
+      rw [ite_eq_right ?_]
       intro hcon
       rw [coverPi_add_deckS, ← hg] at hcon
       apply deckS_ne_zero
@@ -85,7 +85,7 @@ lemma liftC2_decomp (z : GrossGroup → ZMod 2) :
   · have h1 : liftC2 (sheetC2_0 z) g = 0 := by
       change (if g = coverSec (coverPi g) then sheetC2_0 z (coverPi g) else 0)
         = 0
-      rw [if_neg ?_]
+      rw [ite_eq_right ?_]
       intro hcon
       have hcontra := hcon.symm.trans hg
       apply deckS_ne_zero
@@ -98,7 +98,7 @@ lemma liftC2_decomp (z : GrossGroup → ZMod 2) :
           coverPi_coverSec]
       change (if g + deckS = coverSec (coverPi (g + deckS)) then
         sheetC2_1 z (coverPi (g + deckS)) else 0) = z g
-      rw [coverPi_add_deckS, if_pos hgd]
+      rw [coverPi_add_deckS, ite_eq_left hgd]
       change z (coverSec (coverPi g) + deckS) = z g
       rw [← hg]
     rw [h1, h2, zero_add]
@@ -110,9 +110,9 @@ lemma liftC2_add (ξ η : BaseGroup → ZMod 2) :
     = (if g = coverSec (coverPi g) then ξ (coverPi g) else 0)
       + (if g = coverSec (coverPi g) then η (coverPi g) else 0)
   by_cases hg : g = coverSec (coverPi g)
-  · rw [if_pos hg, if_pos hg, if_pos hg]
+  · rw [ite_eq_left hg, ite_eq_left hg, ite_eq_left hg]
     rfl
-  · rw [if_neg hg, if_neg hg, if_neg hg, add_zero]
+  · rw [ite_eq_right hg, ite_eq_right hg, ite_eq_right hg, add_zero]
 
 /-! ## The seam decomposition `∂₂ = N + C` -/
 
@@ -424,9 +424,9 @@ theorem seamC_eq_sparse (ξ : BaseGroup → ZMod 2) : seamC ξ = seamCSparse ξ 
     conv_indicator3 ((0, 3) : GrossGroup) (1, 0) (2, 0)
       (by decide) (by decide) (by decide) (liftC2 ξ) (coverSec p + deckS)
   by_cases hj : j = 0
-  · rw [if_pos hj, hA]
+  · rw [ite_eq_left hj, hA]
     simp [seamCSparse, hj]
-  · rw [if_neg hj, hB]
+  · rw [ite_eq_right hj, hB]
     simp [seamCSparse, hj]
 
 end BB

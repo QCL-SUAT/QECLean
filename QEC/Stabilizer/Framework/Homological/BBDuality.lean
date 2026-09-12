@@ -141,14 +141,14 @@ lemma bbBoundary2Fn_single (f : G) (h : G) (j : Fin 2) :
     bbBoundary2Fn A B (Pi.single f 1) (h, j)
       = if j = 0 then A (h - f) else B (h - f) := by
   by_cases hj : j = 0
-  · rw [if_pos hj]
+  · rw [ite_eq_left hj]
     change (if j = 0 then (A ⋆ Pi.single f 1) h else (B ⋆ Pi.single f 1) h)
       = A (h - f)
-    rw [if_pos hj, conv_comm A, conv_single_left_apply]
-  · rw [if_neg hj]
+    rw [ite_eq_left hj, conv_comm A, conv_single_left_apply]
+  · rw [ite_eq_right hj]
     change (if j = 0 then (A ⋆ Pi.single f 1) h else (B ⋆ Pi.single f 1) h)
       = B (h - f)
-    rw [if_neg hj, conv_comm B, conv_single_left_apply]
+    rw [ite_eq_right hj, conv_comm B, conv_single_left_apply]
 
 /-- Transpose formula for the dual boundary of the BB complex:
 `dualBoundary c = (reflect A) ⋆ c_L + (reflect B) ⋆ c_R`. -/
@@ -320,7 +320,6 @@ theorem bbDual_mem_dualBoundaries_iff (c : G × Fin 2 → ZMod 2) :
     exact hs
   · rintro ⟨f2, hf2⟩
     refine ⟨reflect (G := G) f2, ?_⟩
-    change (bbChainComplex A B).cutMap (reflect (G := G) f2) = bbDualFn c
     rw [← bbDualFn_bbBoundary2Fn]
     exact congrArg bbDualFn hf2
 

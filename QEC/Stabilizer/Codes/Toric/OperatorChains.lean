@@ -98,7 +98,7 @@ def chainOfXOperator (L : ℕ) (g : NQubitPauliGroupElement (toricNumQubits L)) 
 theorem chainOfXOperator_toricXOperatorOfChain (L : ℕ) (c : C1 L) :
     chainOfXOperator L (toricXOperatorOfChain L c) = c := by
   by_cases hL : 0 < L
-  · letI : Fact (0 < L) := ⟨hL⟩
+  · let : Fact (0 < L) := ⟨hL⟩
     ext e
     by_cases hce : c e = 1
     · have hex : ∃ e' : EdgeIdx L, edgeToQubitIdx L e' = edgeToQubitIdx L e ∧ c e' = 1 := by

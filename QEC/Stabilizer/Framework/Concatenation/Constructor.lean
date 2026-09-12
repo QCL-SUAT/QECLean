@@ -196,9 +196,9 @@ lemma promote_anticommute_parity (h₁ h₂ : NQubitPauliGroupElement n₂)
     congr 1
     refine Finset.sum_congr rfl (fun b _ => ?_)
     by_cases hb : anticommutesAt h₁.operators h₂.operators b
-    · simp only [if_pos hb]
+    · simp only [ite_eq_left hb]
       exact Nat.odd_iff.mp ((D.cnt_odd_iff h₁ h₂ b (hY₁ b) (hY₂ b)).mpr hb)
-    · simp only [if_neg hb]
+    · simp only [ite_eq_right hb]
       exact Nat.even_iff.mp (Nat.not_odd_iff_even.mp
         (fun ho => hb ((D.cnt_odd_iff h₁ h₂ b (hY₁ b) (hY₂ b)).mp ho)))
   rw [Nat.even_iff, Nat.even_iff, key]
@@ -278,7 +278,7 @@ lemma mem_concatGeneratorsList (x : NQubitPauliGroupElement (n₁ * n₂))
     (hx : x ∈ NQubitPauliGroupElement.listToSet D.concatGeneratorsList) :
     (∃ b z, z ∈ NQubitPauliGroupElement.listToSet D.Cin.generatorsList ∧ embedBlock b z = x) ∨
       (∃ y, y ∈ D.outerZ ++ D.outerX ∧ promoteE D.Xbar D.Zbar y = x) := by
-  simp only [NQubitPauliGroupElement.listToSet, Set.mem_setOf_eq,
+  simp only [NQubitPauliGroupElement.listToSet, Set.mem_ofPred_eq,
     ConcatCSSData.concatGeneratorsList, ConcatCSSData.s1PerBlockList,
     ConcatCSSData.promotedOuterList, List.mem_append, List.mem_flatMap, List.mem_map] at hx
   rcases hx with ⟨b, _, z, hz, rfl⟩ | ⟨y, hy, rfl⟩
@@ -324,7 +324,7 @@ lemma concat_closure_no_neg_identity :
       {g | (∃ b, ∃ x ∈ D.innerX, embedBlock b x = g) ∨
            (∃ y ∈ D.outerX, promoteE D.Xbar D.Zbar y = g)} := by
     ext g
-    simp only [Set.mem_union, Set.mem_setOf_eq, listToSet,
+    simp only [Set.mem_union, Set.mem_ofPred_eq, listToSet,
       ConcatCSSData.concatGeneratorsList, ConcatCSSData.s1PerBlockList,
       ConcatCSSData.promotedOuterList, List.mem_append, List.mem_flatMap, List.mem_map,
       List.mem_finRange, true_and, D.inner_split.mem_iff, or_and_right, exists_or]

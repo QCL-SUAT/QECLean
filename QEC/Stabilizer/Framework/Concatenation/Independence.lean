@@ -48,7 +48,7 @@ namespace Quantum
 
 namespace NQubitPauliGroupElement
 
-open NQubitPauliOperator Submodule
+open Submodule
 
 variable {n : ℕ}
 
@@ -102,7 +102,7 @@ rows. -/
 lemma rowsLinearIndependent_nil :
     rowsLinearIndependent ([] : List (NQubitPauliGroupElement n)) := by
   rw [rowsLinearIndependent]
-  haveI : IsEmpty (Fin ([] : List (NQubitPauliGroupElement n)).length) := by
+  have : IsEmpty (Fin ([] : List (NQubitPauliGroupElement n)).length) := by
     simp only [List.length_nil]; infer_instance
   exact linearIndependent_empty_type
 
@@ -181,7 +181,7 @@ lemma restrictBlock_embedBlock_self (b : Fin n₂) (g : NQubitPauliGroupElement 
     (restrictBlock b (embedBlock b g)).operators = g.operators := by
   funext i
   change (embedBlock b g).operators (qIdx b i) = g.operators i
-  simp only [embedBlock_operators, embedBlockOp, blockOf_qIdx, posOf_qIdx, if_true]
+  simp only [embedBlock_operators, embedBlockOp, blockOf_qIdx, posOf_qIdx, ite_true]
 
 /-- Restricting an inner generator embedded in block `b'` to a different block
 `b` gives `I`. -/
@@ -190,7 +190,7 @@ lemma restrictBlock_embedBlock_ne {b b' : Fin n₂} (h : b ≠ b') (g : NQubitPa
   funext i
   change (embedBlock b' g).operators (qIdx b i) = NQubitPauliOperator.identity n₁ i
   simp only [embedBlock_operators, embedBlockOp, blockOf_qIdx]
-  rw [if_neg h]; simp [NQubitPauliOperator.identity]
+  rw [ite_eq_right h]; simp [NQubitPauliOperator.identity]
 
 /-- Restricting a promoted outer generator to block `b` gives the inner logical
 class of `t.operators b` (the `promoteSingle` value). -/
@@ -270,7 +270,7 @@ lemma blockRestrictSymp_eq_zero_of_mem_sympSpan (b' : Fin n₂)
   have hle : sympSpan M ≤ LinearMap.ker (blockRestrictSymp b') := by
     rw [sympSpan_eq_span_listToSet, Submodule.span_le]
     rintro x ⟨e, he, rfl⟩
-    simp only [listToSet, Set.mem_setOf_eq] at he
+    simp only [listToSet, Set.mem_ofPred_eq] at he
     obtain ⟨b'', g, hne, rfl⟩ := hM e he
     rw [SetLike.mem_coe, LinearMap.mem_ker, blockRestrictSymp_toSymplectic,
       restrictBlock_embedBlock_ne (Ne.symm hne), toSymplectic_identity]
@@ -417,7 +417,7 @@ lemma blockRestrictSymp_mem_sympSpan_inner (b : Fin n₂)
       ≤ Submodule.comap (blockRestrictSymp b) (sympSpan D.Cin.generatorsList) := by
     rw [sympSpan_eq_span_listToSet, Submodule.span_le]
     rintro x ⟨e, he, rfl⟩
-    simp only [listToSet, Set.mem_setOf_eq, ConcatCSSData.s1PerBlockList] at he
+    simp only [listToSet, Set.mem_ofPred_eq, ConcatCSSData.s1PerBlockList] at he
     obtain ⟨b'', _, hb''e⟩ := List.mem_flatMap.mp he
     obtain ⟨g, hg, rfl⟩ := List.mem_map.mp hb''e
     rw [SetLike.mem_coe, Submodule.mem_comap, blockRestrictSymp_toSymplectic]
@@ -439,7 +439,7 @@ lemma blockRestrictSymp_mem_span_logicals (b : Fin n₂)
       (sympSpan [D.Cin.logicalX 0, D.Cin.logicalZ 0]) := by
     rw [sympSpan_eq_span_listToSet, Submodule.span_le]
     rintro x ⟨e, he, rfl⟩
-    simp only [listToSet, Set.mem_setOf_eq, ConcatCSSData.promotedOuterList] at he
+    simp only [listToSet, Set.mem_ofPred_eq, ConcatCSSData.promotedOuterList] at he
     obtain ⟨t, ht, rfl⟩ := List.mem_map.mp he
     rw [SetLike.mem_coe, Submodule.mem_comap,
       D.blockRestrictSymp_promoteE b t (D.outer_gen_noY t ht b)]

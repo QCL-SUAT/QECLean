@@ -167,7 +167,7 @@ Delegates to the generic
 lemma generators_commute_packaged (L : ℕ) [Fact (2 ≤ L)] :
     ∀ g ∈ listToSet (generatorsListPackaged L),
     ∀ h ∈ listToSet (generatorsListPackaged L), g * h = h * g := by
-  haveI : Fact (0 < L) := ⟨lt_of_lt_of_le (by decide : 0 < 2) Fact.out⟩
+  have : Fact (0 < L) := ⟨lt_of_lt_of_le (by decide : 0 < 2) Fact.out⟩
   -- Bridge: `generators L = (toricHomologicalCode L).homologicalGenerators`.
   have h_gens_eq : generators L =
       (Stabilizer.Lattice.toricHomologicalCode L).homologicalGenerators := by
@@ -209,7 +209,7 @@ private lemma vertexStab_listProd_eq_chain (L : ℕ) [Fact (2 ≤ L)]
       Stabilizer.Lattice.toricZOperatorOfChain L
         (δ⁰ (L := L)
           ((lst.map (fun p => Stabilizer.Lattice.singleVtx p)).sum)) := by
-  haveI : Fact (0 < L) := ⟨lt_of_lt_of_le (by decide : 0 < 2) Fact.out⟩
+  have : Fact (0 < L) := ⟨lt_of_lt_of_le (by decide : 0 < 2) Fact.out⟩
   induction lst with
   | nil =>
       simp only [List.map_nil, List.prod_nil, List.sum_nil]
@@ -227,7 +227,7 @@ private lemma faceStab_listProd_eq_chain (L : ℕ) [Fact (2 ≤ L)]
       Stabilizer.Lattice.toricXOperatorOfChain L
         (∂₂ (L := L)
           ((lst.map (fun p => Stabilizer.Lattice.singleFace p)).sum)) := by
-  haveI : Fact (0 < L) := ⟨lt_of_lt_of_le (by decide : 0 < 2) Fact.out⟩
+  have : Fact (0 < L) := ⟨lt_of_lt_of_le (by decide : 0 < 2) Fact.out⟩
   induction lst with
   | nil =>
       simp only [List.map_nil, List.prod_nil, List.sum_nil]
@@ -357,7 +357,7 @@ vertex stabs. Equivalent to `∏ all vertex stabs = I`. -/
 private theorem dropped_vertex_in_closure_remaining (L : ℕ) [Fact (2 ≤ L)] :
     vertexStab L (zeroCoord L) (zeroCoord L) ∈
       Subgroup.closure (listToSet (generatorsListZTrimmed L)) := by
-  haveI : Fact (0 < L) := ⟨lt_of_lt_of_le (by decide : 0 < 2) Fact.out⟩
+  have : Fact (0 < L) := ⟨lt_of_lt_of_le (by decide : 0 < 2) Fact.out⟩
   -- Step 1: cutMap (trimmed sum) = cutMap (singleVtx origin).
   have h_decomp := sum_singleVtx_coords_eq_trimmed_add_origin L
   have h_const := sum_singleVtx_coords L
@@ -426,7 +426,7 @@ case via `toricXOperatorOfChain_boundary_singleFace` and `toricBoundary2`. -/
 private theorem dropped_face_in_closure_remaining (L : ℕ) [Fact (2 ≤ L)] :
     faceStab L (zeroCoord L) (zeroCoord L) ∈
       Subgroup.closure (listToSet (generatorsListXTrimmed L)) := by
-  haveI : Fact (0 < L) := ⟨lt_of_lt_of_le (by decide : 0 < 2) Fact.out⟩
+  have : Fact (0 < L) := ⟨lt_of_lt_of_le (by decide : 0 < 2) Fact.out⟩
   have h_decomp := sum_singleFace_coords_eq_trimmed_add_origin L
   have h_const := sum_singleFace_coords L
   have h_trim_plus_origin :
@@ -486,7 +486,7 @@ homological identities (dropped generator ∈ closure of remaining). -/
 lemma closure_packaged_eq_full (L : ℕ) [Fact (2 ≤ L)] :
     Subgroup.closure (listToSet (generatorsListPackaged L)) =
       (stabilizerGroup L).toSubgroup := by
-  haveI : Fact (0 < L) := ⟨lt_of_lt_of_le (by decide : 0 < 2) Fact.out⟩
+  have : Fact (0 < L) := ⟨lt_of_lt_of_le (by decide : 0 < 2) Fact.out⟩
   rw [stabilizerGroup_toSubgroup_eq, subgroup]
   apply le_antisymm
   · -- ⊆: closure(trimmed) ⊆ closure(full) since trimmed ⊆ full
@@ -639,11 +639,11 @@ private lemma toricXZ_commute_of_disjoint_supports (L : ℕ) [Fact (0 < L)]
         (hX_eq.trans hZ_eq.symm)
       subst h_eq
       exact h_disj eX ⟨hX_one, hZ_one⟩
-    · rw [if_pos hX, if_neg hZ]; rfl
-  · rw [if_neg hX]
+    · rw [ite_eq_left hX, ite_eq_right hZ]; rfl
+  · rw [ite_eq_right hX]
     by_cases hZ : ∃ e, Stabilizer.Lattice.edgeToQubitIdx L e = q ∧ cZ e = 1
-    · rw [if_pos hZ]; rfl
-    · rw [if_neg hZ]
+    · rw [ite_eq_left hZ]; rfl
+    · rw [ite_eq_right hZ]
 
 /-- Z-Z commute (both elements are Z-type). -/
 private lemma horizontalHRow_verticalVRow_Z_commute (L : ℕ) [Fact (0 < L)] :
@@ -683,7 +683,7 @@ private lemma horizontalHRowZ_verticalLoopX_commute (L : ℕ) [Fact (0 < L)] :
 private theorem horizontalLoopX_anticommute_horizontalHRowZ (L : ℕ) [Fact (2 ≤ L)] :
     NQubitPauliGroupElement.Anticommute
       (horizontalLoopXOperator L) (horizontalHRowZOperator L) := by
-  haveI : Fact (0 < L) := ⟨lt_of_lt_of_le (by decide : 0 < 2) Fact.out⟩
+  have : Fact (0 < L) := ⟨lt_of_lt_of_le (by decide : 0 < 2) Fact.out⟩
   classical
   rw [NQubitPauliGroupElement.anticommutes_iff_odd_anticommutes]
   set z0 : Fin L := Stabilizer.Lattice.zeroCoord L with hz0
@@ -702,7 +702,7 @@ private theorem horizontalLoopX_anticommute_horizontalHRowZ (L : ℕ) [Fact (2 �
     by_cases hX : ∃ e, Stabilizer.Lattice.edgeToQubitIdx L e = q ∧ horizontalLoopChain L e = 1
     · by_cases hZ : ∃ e, Stabilizer.Lattice.edgeToQubitIdx L e = q ∧
           horizontalHRowChain L e = 1
-      · rw [if_pos hX, if_pos hZ]
+      · rw [ite_eq_left hX, ite_eq_left hZ]
         constructor
         · intro _
           rcases hX with ⟨eX, hX_eq, hX_one⟩
@@ -718,24 +718,24 @@ private theorem horizontalLoopX_anticommute_horizontalHRowZ (L : ℕ) [Fact (2 �
               exact hX_eq.symm
           | v x y => simp [horizontalLoopChain] at hX_one
         · intro _; decide
-      · rw [if_pos hX, if_neg hZ]
+      · rw [ite_eq_left hX, ite_eq_right hZ]
         constructor
         · intro h; exact absurd h (by decide)
         · intro hq
           subst hq
           exact absurd ⟨Stabilizer.Lattice.EdgeIdx.h z0 z0, rfl,
             by simp [horizontalHRowChain, hz0]⟩ hZ
-    · rw [if_neg hX]
+    · rw [ite_eq_right hX]
       by_cases hZ : ∃ e, Stabilizer.Lattice.edgeToQubitIdx L e = q ∧
           horizontalHRowChain L e = 1
-      · rw [if_pos hZ]
+      · rw [ite_eq_left hZ]
         constructor
         · intro h; exact absurd h (by decide)
         · intro hq
           subst hq
           exact absurd ⟨Stabilizer.Lattice.EdgeIdx.h z0 z0, rfl,
             by simp [horizontalLoopChain, hz0]⟩ hX
-      · rw [if_neg hZ]
+      · rw [ite_eq_right hZ]
         constructor
         · intro h; exact absurd h (by decide)
         · intro hq
@@ -750,7 +750,7 @@ private theorem horizontalLoopX_anticommute_horizontalHRowZ (L : ℕ) [Fact (2 �
 private theorem verticalLoopX_anticommute_verticalVRowZ (L : ℕ) [Fact (2 ≤ L)] :
     NQubitPauliGroupElement.Anticommute
       (verticalLoopXOperator L) (verticalVRowZOperator L) := by
-  haveI : Fact (0 < L) := ⟨lt_of_lt_of_le (by decide : 0 < 2) Fact.out⟩
+  have : Fact (0 < L) := ⟨lt_of_lt_of_le (by decide : 0 < 2) Fact.out⟩
   classical
   rw [NQubitPauliGroupElement.anticommutes_iff_odd_anticommutes]
   set z0 : Fin L := Stabilizer.Lattice.zeroCoord L with hz0
@@ -769,7 +769,7 @@ private theorem verticalLoopX_anticommute_verticalVRowZ (L : ℕ) [Fact (2 ≤ L
     by_cases hX : ∃ e, Stabilizer.Lattice.edgeToQubitIdx L e = q ∧ verticalLoopChain L e = 1
     · by_cases hZ : ∃ e, Stabilizer.Lattice.edgeToQubitIdx L e = q ∧
           verticalVRowChain L e = 1
-      · rw [if_pos hX, if_pos hZ]
+      · rw [ite_eq_left hX, ite_eq_left hZ]
         constructor
         · intro _
           rcases hX with ⟨eX, hX_eq, hX_one⟩
@@ -785,24 +785,24 @@ private theorem verticalLoopX_anticommute_verticalVRowZ (L : ℕ) [Fact (2 ≤ L
               subst hx; subst hy
               exact hX_eq.symm
         · intro _; decide
-      · rw [if_pos hX, if_neg hZ]
+      · rw [ite_eq_left hX, ite_eq_right hZ]
         constructor
         · intro h; exact absurd h (by decide)
         · intro hq
           subst hq
           exact absurd ⟨Stabilizer.Lattice.EdgeIdx.v z0 z0, rfl,
             by simp [verticalVRowChain, hz0]⟩ hZ
-    · rw [if_neg hX]
+    · rw [ite_eq_right hX]
       by_cases hZ : ∃ e, Stabilizer.Lattice.edgeToQubitIdx L e = q ∧
           verticalVRowChain L e = 1
-      · rw [if_pos hZ]
+      · rw [ite_eq_left hZ]
         constructor
         · intro h; exact absurd h (by decide)
         · intro hq
           subst hq
           exact absurd ⟨Stabilizer.Lattice.EdgeIdx.v z0 z0, rfl,
             by simp [verticalLoopChain, hz0]⟩ hX
-      · rw [if_neg hZ]
+      · rw [ite_eq_right hZ]
         constructor
         · intro h; exact absurd h (by decide)
         · intro hq
@@ -816,7 +816,7 @@ private theorem verticalLoopX_anticommute_verticalVRowZ (L : ℕ) [Fact (2 ≤ L
 stabilizer. -/
 private theorem horizontalLoopXOperator_mem_centralizer (L : ℕ) [Fact (2 ≤ L)] :
     horizontalLoopXOperator L ∈ StabilizerGroup.centralizer (packagedStabilizerGroup L) := by
-  haveI : Fact (0 < L) := ⟨lt_of_lt_of_le (by decide : 0 < 2) Fact.out⟩
+  have : Fact (0 < L) := ⟨lt_of_lt_of_le (by decide : 0 < 2) Fact.out⟩
   rw [StabilizerGroup.centralizer_eq_of_toSubgroup_eq _ (stabilizerGroup L)
     (packagedStabilizerGroup_toSubgroup_eq L)]
   exact (Stabilizer.Lattice.toricXOperatorOfChain_mem_centralizer_iff_cycle L
@@ -826,7 +826,7 @@ private theorem horizontalLoopXOperator_mem_centralizer (L : ℕ) [Fact (2 ≤ L
 -/
 private theorem verticalLoopXOperator_mem_centralizer (L : ℕ) [Fact (2 ≤ L)] :
     verticalLoopXOperator L ∈ StabilizerGroup.centralizer (packagedStabilizerGroup L) := by
-  haveI : Fact (0 < L) := ⟨lt_of_lt_of_le (by decide : 0 < 2) Fact.out⟩
+  have : Fact (0 < L) := ⟨lt_of_lt_of_le (by decide : 0 < 2) Fact.out⟩
   rw [StabilizerGroup.centralizer_eq_of_toSubgroup_eq _ (stabilizerGroup L)
     (packagedStabilizerGroup_toSubgroup_eq L)]
   exact (Stabilizer.Lattice.toricXOperatorOfChain_mem_centralizer_iff_cycle L
@@ -836,7 +836,7 @@ private theorem verticalLoopXOperator_mem_centralizer (L : ℕ) [Fact (2 ≤ L)]
 stabilizer. -/
 private theorem horizontalHRowZOperator_mem_centralizer (L : ℕ) [Fact (2 ≤ L)] :
     horizontalHRowZOperator L ∈ StabilizerGroup.centralizer (packagedStabilizerGroup L) := by
-  haveI : Fact (0 < L) := ⟨lt_of_lt_of_le (by decide : 0 < 2) Fact.out⟩
+  have : Fact (0 < L) := ⟨lt_of_lt_of_le (by decide : 0 < 2) Fact.out⟩
   rw [StabilizerGroup.centralizer_eq_of_toSubgroup_eq _ (stabilizerGroup L)
     (packagedStabilizerGroup_toSubgroup_eq L)]
   exact (Stabilizer.Lattice.toricZOperatorOfChain_mem_centralizer_iff_dualCycle L
@@ -846,7 +846,7 @@ private theorem horizontalHRowZOperator_mem_centralizer (L : ℕ) [Fact (2 ≤ L
 -/
 private theorem verticalVRowZOperator_mem_centralizer (L : ℕ) [Fact (2 ≤ L)] :
     verticalVRowZOperator L ∈ StabilizerGroup.centralizer (packagedStabilizerGroup L) := by
-  haveI : Fact (0 < L) := ⟨lt_of_lt_of_le (by decide : 0 < 2) Fact.out⟩
+  have : Fact (0 < L) := ⟨lt_of_lt_of_le (by decide : 0 < 2) Fact.out⟩
   rw [StabilizerGroup.centralizer_eq_of_toSubgroup_eq _ (stabilizerGroup L)
     (packagedStabilizerGroup_toSubgroup_eq L)]
   exact (Stabilizer.Lattice.toricZOperatorOfChain_mem_centralizer_iff_dualCycle L
@@ -896,7 +896,7 @@ private theorem toric_logical_commute_cross (L : ℕ) [Fact (2 ≤ L)] :
           (toric_logicalOps L ℓ').xOp * (toric_logicalOps L ℓ).zOp ∧
         (toric_logicalOps L ℓ).zOp * (toric_logicalOps L ℓ').zOp =
           (toric_logicalOps L ℓ').zOp * (toric_logicalOps L ℓ).zOp) := by
-  haveI : Fact (0 < L) := ⟨lt_of_lt_of_le (by decide : 0 < 2) Fact.out⟩
+  have : Fact (0 < L) := ⟨lt_of_lt_of_le (by decide : 0 < 2) Fact.out⟩
   -- Hardcode the (0, 1) case using the explicit logicalQubit0/1 definitions.
   have h_01 :
       ((logicalQubit0 L).xOp * (logicalQubit1 L).xOp =
@@ -1006,7 +1006,7 @@ private lemma toSymplectic_vertexStab_Z_eq (L : ℕ) [Fact (2 ≤ L)]
         (Fin.natAdd (numQubits L) i) =
       δ⁰ (L := L)
         (Stabilizer.Lattice.singleVtx p) (qubitToEdgeIdx L i) := by
-  haveI : Fact (0 < L) := ⟨lt_of_lt_of_le (by decide : 0 < 2) Fact.out⟩
+  have : Fact (0 < L) := ⟨lt_of_lt_of_le (by decide : 0 < 2) Fact.out⟩
   rw [NQubitPauliOperator.toSymplectic_Z_part]
   rw [show vertexStab L p.1 p.2 = Stabilizer.Lattice.toricZOperatorOfChain L
         (δ⁰ (L := L) (Stabilizer.Lattice.singleVtx p)) from
@@ -1016,7 +1016,7 @@ private lemma toSymplectic_vertexStab_Z_eq (L : ℕ) [Fact (2 ≤ L)]
     (Stabilizer.Lattice.singleVtx p) (qubitToEdgeIdx L i) with hv
   rcases zmod2_zero_or_one v with h0 | h1
   · -- v = 0: no edge index has chain value 1 at i; symplectic = 0.
-    rw [if_neg ?_]
+    rw [ite_eq_right ?_]
     · rw [h0]; rfl
     · rintro ⟨e', heq, hone⟩
       -- e' = qubitToEdgeIdx L i (by injectivity), so v = chain at e' = 1 ≠ 0
@@ -1027,7 +1027,7 @@ private lemma toSymplectic_vertexStab_Z_eq (L : ℕ) [Fact (2 ≤ L)]
       rw [hv] at h0
       exact absurd hone (h0 ▸ (by decide : (0 : ZMod 2) ≠ 1))
   · -- v = 1: edge `qubitToEdgeIdx L i` has chain value 1; symplectic = 1.
-    rw [if_pos ?_]
+    rw [ite_eq_left ?_]
     · rw [h1]; rfl
     · refine ⟨qubitToEdgeIdx L i, edgeToQubitIdx_qubitToEdgeIdx L i, ?_⟩
       rw [← hv]; exact h1
@@ -1040,7 +1040,7 @@ private lemma toSymplectic_faceStab_X_eq (L : ℕ) [Fact (2 ≤ L)]
         (Fin.castAdd (numQubits L) i) =
       ∂₂ (L := L)
         (Stabilizer.Lattice.singleFace p) (qubitToEdgeIdx L i) := by
-  haveI : Fact (0 < L) := ⟨lt_of_lt_of_le (by decide : 0 < 2) Fact.out⟩
+  have : Fact (0 < L) := ⟨lt_of_lt_of_le (by decide : 0 < 2) Fact.out⟩
   rw [NQubitPauliOperator.toSymplectic_X_part]
   rw [show faceStab L p.1 p.2 = Stabilizer.Lattice.toricXOperatorOfChain L
         (∂₂ (L := L) (Stabilizer.Lattice.singleFace p)) from
@@ -1049,7 +1049,7 @@ private lemma toSymplectic_faceStab_X_eq (L : ℕ) [Fact (2 ≤ L)]
   set v := ∂₂ (L := L)
     (Stabilizer.Lattice.singleFace p) (qubitToEdgeIdx L i) with hv
   rcases zmod2_zero_or_one v with h0 | h1
-  · rw [if_neg ?_]
+  · rw [ite_eq_right ?_]
     · rw [h0]; rfl
     · rintro ⟨e', heq, hone⟩
       have h_inj : e' = qubitToEdgeIdx L i := by
@@ -1058,7 +1058,7 @@ private lemma toSymplectic_faceStab_X_eq (L : ℕ) [Fact (2 ≤ L)]
       rw [← h_inj] at hv
       rw [hv] at h0
       exact absurd hone (h0 ▸ (by decide : (0 : ZMod 2) ≠ 1))
-  · rw [if_pos ?_]
+  · rw [ite_eq_left ?_]
     · rw [h1]; rfl
     · refine ⟨qubitToEdgeIdx L i, edgeToQubitIdx_qubitToEdgeIdx L i, ?_⟩
       rw [← hv]; exact h1
@@ -1248,7 +1248,7 @@ set_option backward.isDefEq.respectTransparency false in
 /-- Symplectic linear independence of the trimmed generator list. -/
 private theorem rowsLinearIndependent_generatorsListPackaged (L : ℕ) [Fact (2 ≤ L)] :
     NQubitPauliGroupElement.rowsLinearIndependent (generatorsListPackaged L) := by
-  haveI : Fact (0 < L) := ⟨lt_of_lt_of_le (by decide : 0 < 2) Fact.out⟩
+  have : Fact (0 < L) := ⟨lt_of_lt_of_le (by decide : 0 < 2) Fact.out⟩
   unfold NQubitPauliGroupElement.rowsLinearIndependent
   rw [Fintype.linearIndependent_iff]
   intro f hsum j
@@ -1550,10 +1550,10 @@ noncomputable def toricStabilizerCode (L : ℕ) [Fact (2 ≤ L)] :
     exact hq
   generatorsList := generatorsListPackaged L
   generators_length := by
-    haveI : Fact (0 < L) := ⟨lt_of_lt_of_le (by decide : 0 < 2) Fact.out⟩
+    have : Fact (0 < L) := ⟨lt_of_lt_of_le (by decide : 0 < 2) Fact.out⟩
     exact generatorsListPackaged_length L
   generators_phaseZero := by
-    haveI : Fact (0 < L) := ⟨lt_of_lt_of_le (by decide : 0 < 2) Fact.out⟩
+    have : Fact (0 < L) := ⟨lt_of_lt_of_le (by decide : 0 < 2) Fact.out⟩
     exact allPhaseZero_generatorsListPackaged L
   generators_independent := generators_independent_packaged L
   generators_commute := generators_commute_packaged L

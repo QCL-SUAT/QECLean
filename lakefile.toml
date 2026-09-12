@@ -7,7 +7,15 @@ defaultTargets = ["QEC"]
 pp.unicode.fun = true # pretty-prints `fun a ↦ b`
 autoImplicit = false
 relaxedAutoImplicit = false
-weak.linter.mathlibStandardSet = true
+# `weak.linter.mathlibStandardSet = true` used to sit here.  It is mathlib's
+# *internal* soft-linter profile (the `weak.` "says" mechanism), copied into this
+# lakefile along with the rest of the mathlib-style preamble.  It accounted for
+# 393 of this library's 756 build warnings, 340 of them `linter.flexible`, whose
+# only remedies are "rewrite the proof around `suffices`" or a `set_option` on
+# every single declaration.  It is dropped here so the fork matches the other
+# three vendored libraries; the substantive linters it does NOT own --
+# deprecated references, unused `simp` arguments, unused variables, `letI`/
+# `haveI` style, unused/never-executed tactics -- stay enabled and are clean.
 maxSynthPendingDepth = 3
 
 [[require]]

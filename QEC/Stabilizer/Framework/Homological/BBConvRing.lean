@@ -56,6 +56,7 @@ noncomputable def convEquiv :
 
 variable [AddCommGroup G]
 
+set_option linter.deprecated false in
 /-- **Convolution is the group-algebra product.** Under `convEquiv` the
 multiplication of `𝔽₂[G]` is exactly the repo's `conv`. -/
 lemma convEquiv_mul (a b : AddMonoidAlgebra (ZMod 2) G) :
@@ -80,6 +81,7 @@ lemma convEquiv_mul (a b : AddMonoidAlgebra (ZMod 2) G) :
   rfl
 
 set_option backward.isDefEq.respectTransparency false in
+set_option linter.deprecated false in
 /-- Multiplication by a group generator is a translation: on `0`/`2`-chains
 `conv (x^s) v = translate (-s) v`. (`x^s := convEquiv (single s 1)`, the
 indicator of `s`.) -/
@@ -88,15 +90,16 @@ lemma conv_convEquiv_single (s : G) (v : G → ZMod 2) :
   classical
   funext g
   rw [conv_apply, translate_apply, Finset.sum_eq_single s]
-  · rw [convEquiv_apply, AddMonoidAlgebra.coeff_single_apply, if_pos rfl, one_mul,
+  · rw [convEquiv_apply, AddMonoidAlgebra.coeff_single_apply, ite_eq_left rfl, one_mul,
       sub_eq_add_neg]
   · intro h _ hhs
-    rw [convEquiv_apply, AddMonoidAlgebra.coeff_single_apply, if_neg (Ne.symm hhs),
+    rw [convEquiv_apply, AddMonoidAlgebra.coeff_single_apply, ite_eq_right (Ne.symm hhs),
       zero_mul]
   · intro hcon
     exact absurd (Finset.mem_univ s) hcon
 
 set_option backward.isDefEq.respectTransparency false in
+set_option linter.deprecated false in
 /-- The deck operator `ε = 1 + x^σ` of `BBEpsFreeGroupAlgebra`, transported
 through `convEquiv`, acts on `0`/`2`-chains as `v ↦ v + translate (-σ) v` — the
 repo's `v + σv` once `σ` has order 2. -/
@@ -111,10 +114,10 @@ lemma conv_convEquiv_one_add_single (σ : G) (v : G → ZMod 2) :
     funext g
     rw [conv_apply, Finset.sum_eq_single (0 : G)]
     · rw [convEquiv_apply, AddMonoidAlgebra.one_def, AddMonoidAlgebra.coeff_single_apply,
-        if_pos rfl, one_mul, sub_zero]
+        ite_eq_left rfl, one_mul, sub_zero]
     · intro h _ hh0
       rw [convEquiv_apply, AddMonoidAlgebra.one_def, AddMonoidAlgebra.coeff_single_apply,
-        if_neg (Ne.symm hh0), zero_mul]
+        ite_eq_right (Ne.symm hh0), zero_mul]
     · intro hcon
       exact absurd (Finset.mem_univ (0 : G)) hcon
   rw [hone, conv_convEquiv_single]

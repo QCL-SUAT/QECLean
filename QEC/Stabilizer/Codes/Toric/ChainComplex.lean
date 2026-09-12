@@ -144,11 +144,11 @@ theorem toricHomologicalCode_cutMap_eq :
       refine Finset.sum_eq_single e ?_ ?_
       · intros e' _ hne
         change (if e' = e then (1 : ZMod 2) else 0) * f e' = 0
-        rw [if_neg hne]; ring
+        rw [ite_eq_right hne]; ring
       · intro h; exact absurd (Finset.mem_univ e) h
     rw [hsum]
     change (if e = e then (1 : ZMod 2) else 0) * f e = f e
-    rw [if_pos rfl]; ring
+    rw [ite_eq_left rfl]; ring
   -- The two RHS sums are equal because the LHS sums are equal (both pair `∂₁ δ` with `s`).
   have hRHS :
       ∑ e' : EdgeIdx L, δ e' * (toricHomologicalCode L).cutMap s e'

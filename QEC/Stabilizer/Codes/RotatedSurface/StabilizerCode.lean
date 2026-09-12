@@ -62,11 +62,11 @@ private lemma boundary1_pi_single (v : RotatedSurface.VtxIdx L)
   classical
   rw [RotatedSurface.rscBoundary1_apply]
   by_cases hv : v ∈ RotatedSurface.zSupport zf
-  · rw [if_pos hv, Finset.sum_eq_single_of_mem v hv]
+  · rw [ite_eq_left hv, Finset.sum_eq_single_of_mem v hv]
     · simp
     · intro u _ hne
       simp [hne]
-  · rw [if_neg hv]
+  · rw [ite_eq_right hv]
     apply Finset.sum_eq_zero
     intro u hu
     have hne : u ≠ v := fun heq => hv (heq ▸ hu)
@@ -96,7 +96,7 @@ lemma cutMap_singleVtx_apply (zf : RotatedSurface.ZFaceIdx L)
         (0 : ZMod 2) := by
       simp only [Quantum.Stabilizer.Homological.HomologicalCode.singleVtx,
         Pi.single_apply]
-      exact if_neg hne
+      exact ite_eq_right hne
     rw [h0]; ring
   · intro hcontra; exact absurd (Finset.mem_univ zf) hcontra
 
@@ -110,12 +110,12 @@ lemma boundary2_singleFace_apply (xf : RotatedSurface.XFaceIdx L)
   change ∂₂ L (Pi.single xf 1) v = _
   rw [RotatedSurface.rscBoundary2_apply]
   by_cases hv : v ∈ RotatedSurface.xSupport xf
-  · rw [if_pos hv, Finset.sum_eq_single xf]
+  · rw [ite_eq_left hv, Finset.sum_eq_single xf]
     · simp [hv]
     · intro xf' _ hne
       simp [hne]
     · intro hcontra; exact absurd (Finset.mem_univ xf) hcontra
-  · rw [if_neg hv]
+  · rw [ite_eq_right hv]
     apply Finset.sum_eq_zero
     intro xf' _
     by_cases hxf : xf' = xf
@@ -195,7 +195,7 @@ private lemma toSymplectic_zStab_Z (zf : RotatedSurface.ZFaceIdx L)
     have hex : ∃ v : RotatedSurface.VtxIdx L,
         RotatedSurface.rscQubitEquiv L v = q ∧ c v = 1 :=
       ⟨vtxOfQubit L q, rscQubitEquiv_vtxOfQubit L q, h1⟩
-    rw [if_pos hex]
+    rw [ite_eq_left hex]
     -- RHS: 1[v ∈ zSupport zf] = 1 since hc_val gives c = 1 here.
     have : (if vtxOfQubit L q ∈ RotatedSurface.zSupport zf then (1 : ZMod 2) else 0) = 1 := by
       rw [hc_val] at h1; exact h1
@@ -209,13 +209,13 @@ private lemma toSymplectic_zStab_Z (zf : RotatedSurface.ZFaceIdx L)
         rw [rscQubitEquiv_vtxOfQubit, hv]
       rw [hveq] at hcv
       exact h1 hcv
-    rw [if_neg hnotex]
+    rw [ite_eq_right hnotex]
     -- c (vtxOfQubit q) ≠ 1 means c = 0 (ZMod 2 dichotomy), so RHS = 0.
     have h0 : c (vtxOfQubit L q) = 0 := by
       rw [hc_val] at h1 ⊢
       by_cases h : vtxOfQubit L q ∈ RotatedSurface.zSupport zf
-      · rw [if_pos h] at h1; exact absurd rfl h1
-      · rw [if_neg h]
+      · rw [ite_eq_left h] at h1; exact absurd rfl h1
+      · rw [ite_eq_right h]
     have : (if vtxOfQubit L q ∈ RotatedSurface.zSupport zf then (1 : ZMod 2) else 0) = 0 := by
       rw [hc_val] at h0; exact h0
     rw [this]; rfl
@@ -340,7 +340,7 @@ private lemma toSymplectic_xStab_X (xf : RotatedSurface.XFaceIdx L)
   · have hex : ∃ v : RotatedSurface.VtxIdx L,
         RotatedSurface.rscQubitEquiv L v = q ∧ c v = 1 :=
       ⟨vtxOfQubit L q, rscQubitEquiv_vtxOfQubit L q, h1⟩
-    rw [if_pos hex]
+    rw [ite_eq_left hex]
     have : (if vtxOfQubit L q ∈ RotatedSurface.xSupport xf then (1 : ZMod 2) else 0) = 1 := by
       rw [hc_val] at h1; exact h1
     rw [this]; rfl
@@ -352,12 +352,12 @@ private lemma toSymplectic_xStab_X (xf : RotatedSurface.XFaceIdx L)
         rw [rscQubitEquiv_vtxOfQubit, hv]
       rw [hveq] at hcv
       exact h1 hcv
-    rw [if_neg hnotex]
+    rw [ite_eq_right hnotex]
     have h0 : c (vtxOfQubit L q) = 0 := by
       rw [hc_val] at h1 ⊢
       by_cases h : vtxOfQubit L q ∈ RotatedSurface.xSupport xf
-      · rw [if_pos h] at h1; exact absurd rfl h1
-      · rw [if_neg h]
+      · rw [ite_eq_left h] at h1; exact absurd rfl h1
+      · rw [ite_eq_right h]
     have : (if vtxOfQubit L q ∈ RotatedSurface.xSupport xf then (1 : ZMod 2) else 0) = 0 := by
       rw [hc_val] at h0; exact h0
     rw [this]; rfl
@@ -842,7 +842,7 @@ theorem middleColChain_mem_cycles :
     obtain ⟨hv1, _⟩ := hv
     unfold middleColChain
     rw [hv1]
-    rw [if_neg (by omega)]
+    rw [ite_eq_right (by omega)]
   | rightBdy k =>
     -- Every qubit in zSupport(rightBdy k) has x = L-1 ≠ mid.
     apply Finset.sum_eq_zero
@@ -851,7 +851,7 @@ theorem middleColChain_mem_cycles :
     obtain ⟨hv1, _⟩ := hv
     unfold middleColChain
     rw [hv1]
-    rw [if_neg (by omega)]
+    rw [ite_eq_right (by omega)]
 
 /-- `dualBoundary c xf = ∑ v ∈ xSupport xf, c v` (the indicator
 characterization). -/
@@ -882,8 +882,8 @@ lemma dualBoundary_apply_eq_sum (c : RotatedSurface.VtxIdx L → ZMod 2)
     apply Finset.sum_congr rfl
     intro v _
     by_cases hv : v ∈ RotatedSurface.xSupport xf
-    · rw [if_pos hv, if_pos hv, _root_.mul_one]
-    · rw [if_neg hv, if_neg hv, MulZeroClass.mul_zero]
+    · rw [ite_eq_left hv, ite_eq_left hv, _root_.mul_one]
+    · rw [ite_eq_right hv, ite_eq_right hv, MulZeroClass.mul_zero]
   rw [h_step2]
   rw [← Finset.sum_filter]
   apply Finset.sum_congr ?_ (fun _ _ => rfl)
@@ -954,7 +954,7 @@ theorem middleRowChain_mem_dualCycles :
     obtain ⟨hv2, _⟩ := hv
     unfold middleRowChain
     rw [hv2]
-    rw [if_neg (by omega)]
+    rw [ite_eq_right (by omega)]
   | bottomBdy k =>
     -- All qubits have y = L - 1 ≠ mid.
     apply Finset.sum_eq_zero
@@ -963,7 +963,7 @@ theorem middleRowChain_mem_dualCycles :
     obtain ⟨hv2, _⟩ := hv
     unfold middleRowChain
     rw [hv2]
-    rw [if_neg (by omega)]
+    rw [ite_eq_right (by omega)]
 
 /-! ### Logical operators and centralizer membership -/
 
@@ -1018,8 +1018,8 @@ private lemma chainInnerProduct_middleCol_middleRow :
         congr 1
         · exact Fin.ext h1
         · exact Fin.ext h2
-      · rw [if_pos h1, if_neg h2, MulZeroClass.mul_zero]
-    · rw [if_neg h1, MulZeroClass.zero_mul]
+      · rw [ite_eq_left h1, ite_eq_right h2, MulZeroClass.mul_zero]
+    · rw [ite_eq_right h1, MulZeroClass.zero_mul]
   · intro hcontra; exact absurd (Finset.mem_univ _) hcontra
 
 /-- Logical X and logical Z anticommute. -/

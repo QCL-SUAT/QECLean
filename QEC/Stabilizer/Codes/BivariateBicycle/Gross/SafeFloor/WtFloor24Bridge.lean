@@ -152,7 +152,7 @@ theorem foldl_fadd_one_lt2 (P : BaseGroup → Bool) :
     simp only [List.foldl_cons]
     apply ih
     by_cases hP : P h
-    · simp only [hP, if_true]
+    · simp only [hP, ite_true]
       have : acc = 0 ∨ acc = 1 := by omega
       rcases this with rfl | rfl <;> decide
     · simp only [hP]; exact hacc

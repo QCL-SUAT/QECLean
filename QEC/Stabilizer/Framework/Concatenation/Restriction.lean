@@ -160,9 +160,9 @@ lemma toSymplectic_eq_sum_embed_restrictBlock (x : NQubitPauliGroupElement (n₁
       ∧ (embedBlock (blockOf q) (restrictBlock (blockOf q) x)).operators q = x.operators q := by
     intro q
     refine ⟨fun b hb => ?_, ?_⟩
-    · simp only [embedBlock_operators, embedBlockOp]; exact if_neg (Ne.symm hb)
+    · simp only [embedBlock_operators, embedBlockOp]; exact ite_eq_right (Ne.symm hb)
     · simp only [embedBlock_operators, embedBlockOp, restrictBlock_operators,
-        restrictBlockOp, if_true, qIdx_blockOf_posOf]
+        restrictBlockOp, ite_true, qIdx_blockOf_posOf]
   refine Fin.addCases (fun q => ?_) (fun q => ?_) j
   · rw [toSymplectic_X_part, Finset.sum_eq_single (blockOf q)
         (fun b _ hb => by rw [toSymplectic_X_part, (hsingle q).1 b hb]; rfl)
@@ -179,7 +179,7 @@ variable (D : ConcatCSSData n₁ n₂ k₂)
 lemma embedBlock_mem_concatGeneratorsList (b : Fin n₂) (s : NQubitPauliGroupElement n₁)
     (hs : s ∈ NQubitPauliGroupElement.listToSet D.Cin.generatorsList) :
     embedBlock b s ∈ NQubitPauliGroupElement.listToSet D.concatGeneratorsList := by
-  simp only [NQubitPauliGroupElement.listToSet, Set.mem_setOf_eq] at hs ⊢
+  simp only [NQubitPauliGroupElement.listToSet, Set.mem_ofPred_eq] at hs ⊢
   simp only [ConcatCSSData.concatGeneratorsList, ConcatCSSData.s1PerBlockList, List.mem_append,
     List.mem_flatMap, List.mem_map, List.mem_finRange]
   exact Or.inl ⟨b, trivial, s, hs, rfl⟩

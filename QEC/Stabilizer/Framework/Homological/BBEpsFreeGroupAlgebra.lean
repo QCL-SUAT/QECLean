@@ -87,7 +87,7 @@ lemma sum_single_orbit_apply (σ g : G) (co : ℕ → k) {N : ℕ}
   rw [Finset.sum_eq_single m]
   · rw [Finsupp.single_eq_same]
   · intro j hj hjm
-    rw [Finsupp.single_apply, if_neg]
+    rw [Finsupp.single_apply, ite_eq_right]
     intro hcon
     exact hjm (hinj j (Finset.mem_range.mp hj) m hm
       (by exact add_left_cancel hcon))
@@ -169,7 +169,7 @@ lemma linearIndependent_transversal
   rw [linearIndependent_iff]
   intro l hl
   rcases subsingleton_or_nontrivial k with hk | hk
-  · haveI : Subsingleton (AdjoinRoot ((X : k[X]) ^ N)) :=
+  · have : Subsingleton (AdjoinRoot ((X : k[X]) ^ N)) :=
       AdjoinRoot.mk_surjective.subsingleton
     ext i
     exact Subsingleton.elim _ _
@@ -255,7 +255,7 @@ lemma linearIndependent_transversal
       intro i _ hii₀
       rw [Finsupp.finsetSum_apply]
       refine Finset.sum_eq_zero fun j hj => ?_
-      rw [Finsupp.single_apply, if_neg]
+      rw [Finsupp.single_apply, ite_eq_right]
       intro hcon
       exact hii₀ (congrArg Prod.fst (hinj (a₁ := (i, ⟨j, Finset.mem_range.mp hj⟩))
         (a₂ := (i₀, ⟨m, hm⟩)) hcon))
@@ -307,7 +307,7 @@ theorem epsFree_single_sub_one_of_transversal
       (AddMonoidAlgebra.single σ (1 : k) - 1) = 0 := by
     rw [Polynomial.eval₂_X_pow]
     exact hεN
-  letI : Algebra (AdjoinRoot ((X : k[X]) ^ N)) (AddMonoidAlgebra k G) :=
+  let : Algebra (AdjoinRoot ((X : k[X]) ^ N)) (AddMonoidAlgebra k G) :=
     (AdjoinRoot.lift (algebraMap k (AddMonoidAlgebra k G))
       (AddMonoidAlgebra.single σ (1 : k) - 1) hev).toAlgebra
   have halg : ∀ p : k[X],
@@ -316,7 +316,7 @@ theorem epsFree_single_sub_one_of_transversal
         = Polynomial.aeval (AddMonoidAlgebra.single σ (1 : k) - 1) p := by
     intro p
     rw [RingHom.algebraMap_toAlgebra, AdjoinRoot.lift_mk, Polynomial.aeval_def]
-  letI : Module.Free (AdjoinRoot ((X : k[X]) ^ N)) (AddMonoidAlgebra k G) :=
+  let : Module.Free (AdjoinRoot ((X : k[X]) ^ N)) (AddMonoidAlgebra k G) :=
     Module.Free.of_basis (Module.Basis.mk
       (linearIndependent_transversal halg hN t he.injective)
       (span_transversal_eq_top halg t he.surjective))

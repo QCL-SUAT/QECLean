@@ -121,7 +121,7 @@ theorem rowsLinearIndependent_implies_independentGenerators (L : List (NQubitPau
         (fun j => checkMatrix L j) '' (↑(Finset.univ.erase i) : Set (Fin L.length)) := by
     intro x hx
     obtain ⟨y, hy, rfl⟩ := hx
-    rw [listToSet, Set.mem_diff, Set.mem_ofPred] at hy
+    rw [listToSet, Set.mem_sdiff, Set.mem_ofPred] at hy
     obtain ⟨hy_mem, hy_ne⟩ := hy
     obtain ⟨j, hj⟩ := List.mem_iff_get.mp hy_mem
     refine ⟨j, Finset.mem_erase.mpr ⟨?_, Finset.mem_univ j⟩, ?_⟩

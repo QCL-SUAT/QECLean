@@ -385,7 +385,7 @@ lemma ZGenerators_commute_XGenerators (L : ℕ) [Fact (2 ≤ L)] :
   intro z hz x hx
   rcases hz with ⟨⟨xv, yv⟩, rfl⟩
   rcases hx with ⟨⟨xf, yf⟩, rfl⟩
-  haveI : Fact (0 < L) := ⟨Nat.lt_of_lt_of_le (by decide : 0 < 2) (Fact.out : 2 ≤ L)⟩
+  have : Fact (0 < L) := ⟨Nat.lt_of_lt_of_le (by decide : 0 < 2) (Fact.out : 2 ≤ L)⟩
   let C : Prop := (xv = xf ∨ xv = next L xf) ∧ (yv = yf ∨ yv = next L yf)
   let hh : Fin (numQubits L) := hEdge L xf yv
   let vv : Fin (numQubits L) := vEdge L xv yf

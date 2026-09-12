@@ -325,9 +325,9 @@ lemma bezoutE_add (P Q : G → ZMod 2) (a b : G → ZMod 2) :
   funext q
   simp only [bezoutE, Pi.add_apply]
   by_cases hq : q.2 = 0
-  · rw [if_pos hq, if_pos hq, if_pos hq, conv_add_right]
+  · rw [ite_eq_left hq, ite_eq_left hq, ite_eq_left hq, conv_add_right]
     rfl
-  · rw [if_neg hq, if_neg hq, if_neg hq, conv_add_right]
+  · rw [ite_eq_right hq, ite_eq_right hq, ite_eq_right hq, conv_add_right]
     rfl
 
 /-- Left-block computation for the Bezout homotopy:
@@ -729,8 +729,8 @@ theorem dangerous_bound_of_pair_shape {d t : ℕ}
             + 4 * (if u j ≠ 0 ∧ ¬ (b₁ j ≠ 0 ∨ b₂ j ≠ 0) then 1 else 0) := by
         intro j
         by_cases hUj : b₁ j ≠ 0 ∨ b₂ j ≠ 0
-        · rw [if_pos hUj,
-            if_neg (show ¬ (u j ≠ 0 ∧ ¬ (b₁ j ≠ 0 ∨ b₂ j ≠ 0)) from
+        · rw [ite_eq_left hUj,
+            ite_eq_right (show ¬ (u j ≠ 0 ∧ ¬ (b₁ j ≠ 0 ∨ b₂ j ≠ 0)) from
               fun hcon => hcon.2 hUj)]
           simp only [Pi.add_apply]
           have key : ∀ a β₁ β₂ : ZMod 2, (β₁ ≠ 0 ∨ β₂ ≠ 0) →
@@ -739,7 +739,7 @@ theorem dangerous_bound_of_pair_shape {d t : ℕ}
                 + (if a + β₂ ≠ 0 then 1 else 0)
                 + (if a + β₁ + β₂ ≠ 0 then 1 else 0) = 2 := by decide
           rw [key (u j) (b₁ j) (b₂ j) hUj]
-        · rw [if_neg hUj]
+        · rw [ite_eq_right hUj]
           push Not at hUj
           simp only [Pi.add_apply]
           have key : ∀ a β₁ β₂ : ZMod 2, β₁ = 0 → β₂ = 0 →
@@ -750,12 +750,12 @@ theorem dangerous_bound_of_pair_shape {d t : ℕ}
               = 4 * (if a ≠ 0 then 1 else 0) := by decide
           rw [key (u j) (b₁ j) (b₂ j) hUj.1 hUj.2]
           by_cases hju : u j ≠ 0
-          · rw [if_pos hju,
-              if_pos (show u j ≠ 0 ∧ ¬ (b₁ j ≠ 0 ∨ b₂ j ≠ 0) from
+          · rw [ite_eq_left hju,
+              ite_eq_left (show u j ≠ 0 ∧ ¬ (b₁ j ≠ 0 ∨ b₂ j ≠ 0) from
                 ⟨hju, fun hor => hor.elim (fun h => h hUj.1)
                   (fun h => h hUj.2)⟩)]
-          · rw [if_neg hju,
-              if_neg (show ¬ (u j ≠ 0 ∧ ¬ (b₁ j ≠ 0 ∨ b₂ j ≠ 0)) from
+          · rw [ite_eq_right hju,
+              ite_eq_right (show ¬ (u j ≠ 0 ∧ ¬ (b₁ j ≠ 0 ∨ b₂ j ≠ 0)) from
                 fun hcon => hju hcon.1)]
       calc (Finset.univ.filter fun j => u j ≠ 0).card
             + (Finset.univ.filter fun j => (u + b₁) j ≠ 0).card
@@ -1085,8 +1085,8 @@ theorem dangerous_bound_of_pair_shape_of_logicalFloor {d t : ℕ}
             + 4 * (if u j ≠ 0 ∧ ¬ (b₁ j ≠ 0 ∨ b₂ j ≠ 0) then 1 else 0) := by
         intro j
         by_cases hUj : b₁ j ≠ 0 ∨ b₂ j ≠ 0
-        · rw [if_pos hUj,
-            if_neg (show ¬ (u j ≠ 0 ∧ ¬ (b₁ j ≠ 0 ∨ b₂ j ≠ 0)) from
+        · rw [ite_eq_left hUj,
+            ite_eq_right (show ¬ (u j ≠ 0 ∧ ¬ (b₁ j ≠ 0 ∨ b₂ j ≠ 0)) from
               fun hcon => hcon.2 hUj)]
           simp only [Pi.add_apply]
           have key : ∀ a β₁ β₂ : ZMod 2, (β₁ ≠ 0 ∨ β₂ ≠ 0) →
@@ -1095,7 +1095,7 @@ theorem dangerous_bound_of_pair_shape_of_logicalFloor {d t : ℕ}
                 + (if a + β₂ ≠ 0 then 1 else 0)
                 + (if a + β₁ + β₂ ≠ 0 then 1 else 0) = 2 := by decide
           rw [key (u j) (b₁ j) (b₂ j) hUj]
-        · rw [if_neg hUj]
+        · rw [ite_eq_right hUj]
           push Not at hUj
           simp only [Pi.add_apply]
           have key : ∀ a β₁ β₂ : ZMod 2, β₁ = 0 → β₂ = 0 →
@@ -1106,12 +1106,12 @@ theorem dangerous_bound_of_pair_shape_of_logicalFloor {d t : ℕ}
               = 4 * (if a ≠ 0 then 1 else 0) := by decide
           rw [key (u j) (b₁ j) (b₂ j) hUj.1 hUj.2]
           by_cases hju : u j ≠ 0
-          · rw [if_pos hju,
-              if_pos (show u j ≠ 0 ∧ ¬ (b₁ j ≠ 0 ∨ b₂ j ≠ 0) from
+          · rw [ite_eq_left hju,
+              ite_eq_left (show u j ≠ 0 ∧ ¬ (b₁ j ≠ 0 ∨ b₂ j ≠ 0) from
                 ⟨hju, fun hor => hor.elim (fun h => h hUj.1)
                   (fun h => h hUj.2)⟩)]
-          · rw [if_neg hju,
-              if_neg (show ¬ (u j ≠ 0 ∧ ¬ (b₁ j ≠ 0 ∨ b₂ j ≠ 0)) from
+          · rw [ite_eq_right hju,
+              ite_eq_right (show ¬ (u j ≠ 0 ∧ ¬ (b₁ j ≠ 0 ∨ b₂ j ≠ 0)) from
                 fun hcon => hju hcon.1)]
       calc (Finset.univ.filter fun j => u j ≠ 0).card
             + (Finset.univ.filter fun j => (u + b₁) j ≠ 0).card

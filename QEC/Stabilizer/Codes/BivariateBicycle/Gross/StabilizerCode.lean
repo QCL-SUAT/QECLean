@@ -189,10 +189,10 @@ private lemma d2E_eq_z2_hitB (A1 A2 A3 B1 B2 B3 : Nat) (e : Nat × Fin 2) :
     d2E A1 A2 A3 B1 B2 B3 e.1 e.2 = z2 (hitB A1 A2 A3 B1 B2 B3 e) := by
   unfold d2E hitB
   by_cases hj : e.2 = 0
-  · rw [if_pos hj, if_pos hj]
+  · rw [ite_eq_left hj, ite_eq_left hj]
     by_cases h1 : e.1 = A1 <;> by_cases h2 : e.1 = A2 <;> by_cases h3 : e.1 = A3 <;>
       simp [h1, h2, h3, z2]
-  · rw [if_neg hj, if_neg hj]
+  · rw [ite_eq_right hj, ite_eq_right hj]
     by_cases h1 : e.1 = B1 <;> by_cases h2 : e.1 = B2 <;> by_cases h3 : e.1 = B3 <;>
       simp [h1, h2, h3, z2]
 
@@ -208,9 +208,9 @@ private lemma d2term_eq_d2E (p h : GrossGroup) (j : Fin 2) :
     rw [sub_eq_iff_eq_add, add_comm c p, encG_eq_iff]
   simp only [d2term, grossA, grossB, d2E]
   by_cases hj : j = 0
-  · rw [if_pos hj, if_pos hj]
+  · rw [ite_eq_left hj, ite_eq_left hj]
     exact if_congr (or_congr (hiff _) (or_congr (hiff _) (hiff _))) rfl rfl
-  · rw [if_neg hj, if_neg hj]
+  · rw [ite_eq_right hj, ite_eq_right hj]
     exact if_congr (or_congr (hiff _) (or_congr (hiff _) (hiff _))) rfl rfl
 
 /-- `cmTerm` mirror of `d2term_eq_d2E` (translates are `v - monomial`). -/
@@ -225,9 +225,9 @@ private lemma cmTerm_eq_d2E (v h : GrossGroup) (j : Fin 2) :
         v - h = c ↔ h = v - c).trans (encG_eq_iff h (v - c)).symm
   simp only [cmTerm, grossA, grossB, d2E]
   by_cases hj : j = 0
-  · rw [if_pos hj, if_pos hj]
+  · rw [ite_eq_left hj, ite_eq_left hj]
     exact if_congr (or_congr (hiff _) (or_congr (hiff _) (hiff _))) rfl rfl
-  · rw [if_neg hj, if_neg hj]
+  · rw [ite_eq_right hj, ite_eq_right hj]
     exact if_congr (or_congr (hiff _) (or_congr (hiff _) (hiff _))) rfl rfl
 
 private lemma bool_eq_false_of_ne_true : ∀ b : Bool, b ≠ true → b = false := fun b => by
@@ -502,7 +502,7 @@ lemma face_kernel_trivial {f : GrossGroup → ZMod 2}
   have hfirst : (∑ p : GrossGroup, f p * (if p' = p then (1:ZMod 2) else 0)) = f p' := by
     rw [Finset.sum_eq_single p']
     · simp
-    · intro b _ hb; rw [if_neg (Ne.symm hb)]; ring
+    · intro b _ hb; rw [ite_eq_right (Ne.symm hb)]; ring
     · intro h; exact absurd (Finset.mem_univ p') h
   have hsecond : (∑ p : GrossGroup, f p * kerCorrection redP2 p p') = 0 := by
     refine Finset.sum_eq_zero fun p _ => ?_
@@ -524,7 +524,7 @@ lemma vtx_kernel_trivial {s : GrossGroup → ZMod 2}
   have hfirst : (∑ v : GrossGroup, s v * (if p' = v then (1:ZMod 2) else 0)) = s p' := by
     rw [Finset.sum_eq_single p']
     · simp
-    · intro b _ hb; rw [if_neg (Ne.symm hb)]; ring
+    · intro b _ hb; rw [ite_eq_right (Ne.symm hb)]; ring
     · intro h; exact absurd (Finset.mem_univ p') h
   have hsecond : (∑ v : GrossGroup, s v * kerCorrection redCM v p') = 0 := by
     refine Finset.sum_eq_zero fun v _ => ?_
@@ -908,10 +908,10 @@ lemma vertexStabOf_sympl_Z (v : grossComplex.C0) (i : Fin grossComplex.numQubits
   set c := grossComplex.cutMap (grossComplex.singleVtx v) with hc
   by_cases h : ∃ e, grossComplex.edgeEquiv e = i ∧ c e = 1
   · obtain ⟨e, he, hce⟩ := h
-    rw [if_pos ⟨e, he, hce⟩]
+    rw [ite_eq_left ⟨e, he, hce⟩]
     have : grossComplex.edgeEquiv.symm i = e := by rw [← he, Equiv.symm_apply_apply]
     rw [this, hce]; rfl
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     have hz : c (grossComplex.edgeEquiv.symm i) = 0 := by
       rcases zmod2_dich (c (grossComplex.edgeEquiv.symm i)) with h0 | h1
       · exact h0
@@ -931,10 +931,10 @@ lemma faceStabOf_sympl_X (f : grossComplex.C2) (i : Fin grossComplex.numQubits) 
   set c := grossComplex.boundary2 (grossComplex.singleFace f) with hc
   by_cases h : ∃ e, grossComplex.edgeEquiv e = i ∧ c e = 1
   · obtain ⟨e, he, hce⟩ := h
-    rw [if_pos ⟨e, he, hce⟩]
+    rw [ite_eq_left ⟨e, he, hce⟩]
     have : grossComplex.edgeEquiv.symm i = e := by rw [← he, Equiv.symm_apply_apply]
     rw [this, hce]; rfl
-  · rw [if_neg h]
+  · rw [ite_eq_right h]
     have hz : c (grossComplex.edgeEquiv.symm i) = 0 := by
       rcases zmod2_dich (c (grossComplex.edgeEquiv.symm i)) with h0 | h1
       · exact h0
@@ -997,7 +997,7 @@ lemma combo_singleVtx_kernel_zero (c : Fin keptCoords.length → ZMod 2)
     rw [hs, Finset.sum_apply]
     refine Finset.sum_eq_zero fun i _ => ?_
     have hne : d ≠ keptCoords.get i := fun h => keptCoords_get_not_dropSet i (h ▸ hdmem)
-    simp only [Pi.smul_apply, singleVtx_apply', smul_eq_mul, if_neg hne, mul_zero]
+    simp only [Pi.smul_apply, singleVtx_apply', smul_eq_mul, ite_eq_right hne, mul_zero]
   have hs0 : s = 0 := vtx_kernel_trivial hker hd
   intro j
   have hsj := congr_fun hs0 (keptCoords.get j)
@@ -1006,7 +1006,7 @@ lemma combo_singleVtx_kernel_zero (c : Fin keptCoords.length → ZMod 2)
   · intro i _ hij
     have hne : keptCoords.get j ≠ keptCoords.get i :=
       fun h => hij (List.nodup_iff_injective_get.mp keptCoords_nodup h.symm)
-    simp only [Pi.smul_apply, singleVtx_apply', smul_eq_mul, if_neg hne, mul_zero]
+    simp only [Pi.smul_apply, singleVtx_apply', smul_eq_mul, ite_eq_right hne, mul_zero]
   · intro hc; exact absurd (Finset.mem_univ j) hc
 
 set_option backward.isDefEq.respectTransparency false in
@@ -1020,7 +1020,7 @@ lemma combo_singleFace_kernel_zero (c : Fin keptCoords.length → ZMod 2)
     rw [hs, Finset.sum_apply]
     refine Finset.sum_eq_zero fun i _ => ?_
     have hne : d ≠ keptCoords.get i := fun h => keptCoords_get_not_dropSet i (h ▸ hdmem)
-    simp only [Pi.smul_apply, singleFace_apply', smul_eq_mul, if_neg hne, mul_zero]
+    simp only [Pi.smul_apply, singleFace_apply', smul_eq_mul, ite_eq_right hne, mul_zero]
   have hs0 : s = 0 := face_kernel_trivial hker hd
   intro j
   have hsj := congr_fun hs0 (keptCoords.get j)
@@ -1029,7 +1029,7 @@ lemma combo_singleFace_kernel_zero (c : Fin keptCoords.length → ZMod 2)
   · intro i _ hij
     have hne : keptCoords.get j ≠ keptCoords.get i :=
       fun h => hij (List.nodup_iff_injective_get.mp keptCoords_nodup h.symm)
-    simp only [Pi.smul_apply, singleFace_apply', smul_eq_mul, if_neg hne, mul_zero]
+    simp only [Pi.smul_apply, singleFace_apply', smul_eq_mul, ite_eq_right hne, mul_zero]
   · intro hc; exact absurd (Finset.mem_univ j) hc
 
 /-! ## §5c  Packaged-list indexing -/
@@ -1468,7 +1468,7 @@ noncomputable def logicalQubit (i : Fin 12) :
   z_mem_centralizer :=
     chainZOperator_mem_centralizer_packagedSG (logZchain i) (logZchain_dualCycle i)
   anticommute := chainXOperator_anticommute_chainZOperator (logXchain i) (logZchain i)
-    (by rw [logChain_inner i i, if_pos rfl])
+    (by rw [logChain_inner i i, ite_eq_left rfl])
 
 set_option maxRecDepth 4096 in
 /-- Logical operators for different logical qubits commute (the `12×12` matrix
@@ -1487,9 +1487,9 @@ theorem logical_commute_cross : ∀ ℓ ℓ' : Fin 12, ℓ ≠ ℓ' →
   · exact Quantum.StabilizerGroup.CSSCommutationLemmas.XType_commutes
       (HomologicalCode.chainXOperator_isXType _) (HomologicalCode.chainXOperator_isXType _)
   · exact chainXOperator_commute_chainZOperator (logXchain ℓ) (logZchain ℓ')
-      (by rw [logChain_inner ℓ ℓ', if_neg hne])
+      (by rw [logChain_inner ℓ ℓ', ite_eq_right hne])
   · exact (chainXOperator_commute_chainZOperator (logXchain ℓ') (logZchain ℓ)
-      (by rw [logChain_inner ℓ' ℓ, if_neg (Ne.symm hne)])).symm
+      (by rw [logChain_inner ℓ' ℓ, ite_eq_right (Ne.symm hne)])).symm
   · exact Quantum.StabilizerGroup.CSSCommutationLemmas.ZType_commutes
       (HomologicalCode.chainZOperator_isZType _) (HomologicalCode.chainZOperator_isZType _)
 

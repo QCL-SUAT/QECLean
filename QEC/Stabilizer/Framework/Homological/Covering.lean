@@ -120,8 +120,8 @@ lemma fiberSum_conv (a b : G → ZMod 2) :
       have hcond : π (m + h) = j ↔ π m = j - π h := by
         rw [map_add, eq_sub_iff_add_eq]
       by_cases hm : π m = j - π h
-      · rw [if_pos (hcond.mpr hm), if_pos hm]
-      · rw [if_neg (fun hc => hm (hcond.mp hc)), if_neg hm, mul_zero]
+      · rw [ite_eq_left (hcond.mpr hm), ite_eq_left hm]
+      · rw [ite_eq_right (fun hc => hm (hcond.mp hc)), ite_eq_right hm, mul_zero]
     calc fiberSumFn ⇑π (a ⋆ b) j
         = ∑ g : G, if π g = j then (∑ h : G, a h * b (g - h)) else 0 := rfl
       _ = ∑ g : G, ∑ h : G, (if π g = j then a h * b (g - h) else 0) := by
@@ -218,7 +218,7 @@ lemma fiberSumFn_pullback [Fintype I] [DecidableEq J] (hσne : ∀ i, σ i ≠ i
       (hfiber i (σ i)).mpr (Or.inr rfl)]
     exact CharTwo.add_self_eq_zero _
   · rw [fiberSumFn_apply, Pi.zero_apply]
-    exact Finset.sum_eq_zero fun i _ => if_neg (fun h => hj ⟨i, h⟩)
+    exact Finset.sum_eq_zero fun i _ => ite_eq_right (fun h => hj ⟨i, h⟩)
 
 /-- Canonical lift of a base chain along a chosen section: supported on the
 section's image, with the base values. -/
@@ -237,8 +237,8 @@ lemma fiberSumFn_lift0 [Fintype I] [DecidableEq I] [DecidableEq J]
   · simp [lift0, hsec j]
   · intro i _ hne
     by_cases hfi : f i = j
-    · rw [if_pos hfi, lift0, if_neg (by rw [hfi]; exact hne)]
-    · rw [if_neg hfi]
+    · rw [ite_eq_left hfi, lift0, ite_eq_right (by rw [hfi]; exact hne)]
+    · rw [ite_eq_right hfi]
   · intro habs
     exact absurd (Finset.mem_univ _) habs
 
@@ -321,7 +321,7 @@ theorem card_support_fiberSum_add_overlap [Fintype I] [Fintype J] [DecidableEq J
         push Not at hempty
         apply hj0
         rw [fiberSumFn_apply]
-        exact Finset.sum_eq_zero fun i _ => if_neg (hempty i)
+        exact Finset.sum_eq_zero fun i _ => ite_eq_right (hempty i)
       obtain ⟨g, rfl⟩ := hex
       rw [fiberSumFn_pair hσne hfiber] at hj0
       by_cases hg : v g ≠ 0

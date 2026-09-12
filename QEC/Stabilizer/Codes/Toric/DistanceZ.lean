@@ -63,7 +63,7 @@ def verticalVRowZOperator (L : ℕ) [Fact (0 < L)] :
 theorem verticalVRowChain_mem_toricDualCycles (L : ℕ) [Fact (2 ≤ L)] :
     verticalVRowChain L ∈ Stabilizer.Lattice.toricDualCycles L := by
   have hL0 : 0 < L := Nat.lt_of_lt_of_le (by decide : 0 < 2) (Fact.out : 2 ≤ L)
-  haveI : Fact (0 < L) := ⟨hL0⟩
+  have : Fact (0 < L) := ⟨hL0⟩
   unfold Stabilizer.Lattice.toricDualCycles
   rw [LinearMap.mem_ker]
   ext ⟨x, y⟩
@@ -79,7 +79,7 @@ theorem verticalVRowChain_mem_toricDualCycles (L : ℕ) [Fact (2 ≤ L)] :
 theorem verticalVRowChain_not_mem_toricDualBoundaries (L : ℕ) [Fact (2 ≤ L)] :
     verticalVRowChain L ∉ Stabilizer.Lattice.toricDualBoundaries L := by
   have hL0 : 0 < L := Nat.lt_of_lt_of_le (by decide : 0 < 2) (Fact.out : 2 ≤ L)
-  haveI : Fact (0 < L) := ⟨hL0⟩
+  have : Fact (0 < L) := ⟨hL0⟩
   intro h
   have h_vColAt : Stabilizer.Lattice.vColAt (L := L) (Stabilizer.Lattice.zeroCoord L)
       (verticalVRowChain L) = 0 :=
@@ -100,7 +100,7 @@ theorem verticalVRowChain_not_mem_toricDualBoundaries (L : ℕ) [Fact (2 ≤ L)]
 theorem verticalVRowChain_edgeWeight_eq_L (L : ℕ) [Fact (2 ≤ L)] :
     Stabilizer.Lattice.edgeWeight (verticalVRowChain L) = L := by
   have hL0 : 0 < L := Nat.lt_of_lt_of_le (by decide : 0 < 2) (Fact.out : 2 ≤ L)
-  haveI : Fact (0 < L) := ⟨hL0⟩
+  have : Fact (0 < L) := ⟨hL0⟩
   let z0 : Fin L := Stabilizer.Lattice.zeroCoord L
   let vertAtZero : Finset (Stabilizer.Lattice.EdgeIdx L) :=
     (Finset.univ.image (fun x : Fin L => Stabilizer.Lattice.EdgeIdx.v x z0))
@@ -160,7 +160,7 @@ theorem exists_nontrivial_z_logical_weight_eq_L (L : ℕ) [Fact (2 ≤ L)] :
       IsNontrivialLogicalOperator g (stabilizerGroup L) ∧
       weight g = L := by
   have hL0 : 0 < L := Nat.lt_of_lt_of_le (by decide : 0 < 2) (Fact.out : 2 ≤ L)
-  haveI : Fact (0 < L) := ⟨hL0⟩
+  have : Fact (0 < L) := ⟨hL0⟩
   refine ⟨verticalVRowZOperator L, ?_, ?_, ?_⟩
   · unfold verticalVRowZOperator NQubitPauliGroupElement.IsZTypeElement
     simp +decide [Stabilizer.Lattice.toricZOperatorOfChain]
@@ -241,7 +241,7 @@ theorem nontrivial_z_logical_weight_ge_L (L : ℕ) [Fact (2 ≤ L)]
     (hgLogical : IsNontrivialLogicalOperator g (stabilizerGroup L)) :
     weight g ≥ L := by
   have hL0 : 0 < L := Nat.lt_of_lt_of_le (by decide : 0 < 2) (Fact.out : 2 ≤ L)
-  haveI : Fact (0 < L) := ⟨hL0⟩
+  have : Fact (0 < L) := ⟨hL0⟩
   obtain ⟨c, hc⟩ :
       ∃ c : Stabilizer.Lattice.C1 L, g = Stabilizer.Lattice.toricZOperatorOfChain L c := by
     have := show
@@ -436,7 +436,7 @@ def horizontalHRowZOperator (L : ℕ) [Fact (0 < L)] :
 /-- The horizontal Z-row chain is a dual cycle. -/
 theorem horizontalHRowChain_mem_toricDualCycles (L : ℕ) [Fact (2 ≤ L)] :
     horizontalHRowChain L ∈ Stabilizer.Lattice.toricDualCycles L := by
-  haveI : Fact (0 < L) := ⟨lt_of_lt_of_le (by decide : 0 < 2) Fact.out⟩
+  have : Fact (0 < L) := ⟨lt_of_lt_of_le (by decide : 0 < 2) Fact.out⟩
   unfold Stabilizer.Lattice.toricDualCycles
   rw [LinearMap.mem_ker]
   ext ⟨x, y⟩
@@ -452,7 +452,7 @@ theorem horizontalHRowChain_mem_toricDualCycles (L : ℕ) [Fact (2 ≤ L)] :
 1). -/
 theorem horizontalHRowChain_not_mem_toricDualBoundaries (L : ℕ) [Fact (2 ≤ L)] :
     horizontalHRowChain L ∉ Stabilizer.Lattice.toricDualBoundaries L := by
-  haveI : Fact (0 < L) := ⟨lt_of_lt_of_le (by decide : 0 < 2) Fact.out⟩
+  have : Fact (0 < L) := ⟨lt_of_lt_of_le (by decide : 0 < 2) Fact.out⟩
   intro h
   have h_hRowAt : Stabilizer.Lattice.hRowAt (L := L) (Stabilizer.Lattice.zeroCoord L)
       (horizontalHRowChain L) = 0 :=
@@ -472,7 +472,7 @@ theorem horizontalHRowChain_not_mem_toricDualBoundaries (L : ℕ) [Fact (2 ≤ L
 /-- The horizontal Z-row chain has edge weight `L`. -/
 theorem horizontalHRowChain_edgeWeight_eq_L (L : ℕ) [Fact (2 ≤ L)] :
     Stabilizer.Lattice.edgeWeight (horizontalHRowChain L) = L := by
-  haveI : Fact (0 < L) := ⟨lt_of_lt_of_le (by decide : 0 < 2) Fact.out⟩
+  have : Fact (0 < L) := ⟨lt_of_lt_of_le (by decide : 0 < 2) Fact.out⟩
   let z0 : Fin L := Stabilizer.Lattice.zeroCoord L
   let horizCol : Finset (Stabilizer.Lattice.EdgeIdx L) :=
     (Finset.univ.image (fun y : Fin L => Stabilizer.Lattice.EdgeIdx.h z0 y))

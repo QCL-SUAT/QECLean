@@ -170,8 +170,8 @@ private lemma anticomm_filter_card_eq_inner_filter_card
              (mem_support_chainZOperator_iff c' e).mpr hc'⟩
   by_cases h : NQubitPauliGroupElement.anticommutesAt
       (X.chainXOperator c).operators (X.chainZOperator c').operators (X.edgeEquiv e)
-  · rw [if_pos h, if_pos (hbiconditional.mp h)]
-  · rw [if_neg h, if_neg (h ∘ hbiconditional.mpr)]
+  · rw [ite_eq_left h, ite_eq_left (hbiconditional.mp h)]
+  · rw [ite_eq_right h, ite_eq_right (h ∘ hbiconditional.mpr)]
 
 open Classical in
 /-- Commutation criterion: `chainXOperator c` commutes with `chainZOperator c'`

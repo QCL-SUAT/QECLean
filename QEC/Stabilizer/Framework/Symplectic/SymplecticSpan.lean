@@ -27,7 +27,6 @@ sympSpan(generators)".
 
 namespace NQubitPauliGroupElement
 
-open NQubitPauliOperator
 open Submodule
 
 /-- The F₂-submodule spanned by the symplectic vectors (rows) of the check
@@ -43,7 +42,7 @@ lemma sympSpan_eq_span_listToSet (L : List (NQubitPauliGroupElement n)) :
   rw [sympSpan]
   congr 1
   ext v
-  simp only [listToSet, Set.mem_range, Set.mem_image, Set.mem_setOf, List.mem_iff_get]
+  simp only [listToSet,  Set.mem_image, Set.mem_ofPred, List.mem_iff_get]
   constructor
   · rintro ⟨i, hi⟩
     use L.get i
@@ -61,7 +60,7 @@ matrix. -/
 lemma mem_listToSet_symp_in_range (L : List (NQubitPauliGroupElement n))
     (g : NQubitPauliGroupElement n) (hg : g ∈ listToSet L) :
     NQubitPauliOperator.toSymplectic g.operators ∈ Set.range (checkMatrix L) := by
-  rw [listToSet, Set.mem_setOf] at hg
+  rw [listToSet, Set.mem_ofPred] at hg
   obtain ⟨i, hi⟩ := List.mem_iff_get.mp hg
   use i
   have h_row : checkMatrix L i = NQubitPauliOperator.toSymplectic (L.get i).operators := by
@@ -257,15 +256,15 @@ private lemma empty_of_sum_symp_zero
       toFun := fun i => if i ∈ S then 1 else 0
       mem_support_toFun := fun i => by
         constructor
-        · intro hi; rw [if_pos hi]; exact one_ne_zero
-        · intro hne; by_contra hi; rw [if_neg hi] at hne; exact hne rfl }
+        · intro hi; rw [ite_eq_left hi]; exact one_ne_zero
+        · intro hne; by_contra hi; rw [ite_eq_right hi] at hne; exact hne rfl }
   have h_eq : Finsupp.linearCombination (ZMod 2) (checkMatrix L) l = 0 := by
     rw [Finsupp.linearCombination_apply]
     simp only [Finsupp.sum, l, Finsupp.coe_mk]
     have heq_sum : ∑ i ∈ S, (if i ∈ S then (1 : ZMod 2) else 0) • checkMatrix L i =
         ∑ i ∈ S, NQubitPauliOperator.toSymplectic (L.get i).operators := by
       refine Finset.sum_congr rfl fun i hi => ?_
-      rw [if_pos hi, one_smul]
+      rw [ite_eq_left hi, one_smul]
       rfl
     rw [heq_sum, h]
   have hl_zero : l = 0 := hIndep.finsuppLinearCombination_injective

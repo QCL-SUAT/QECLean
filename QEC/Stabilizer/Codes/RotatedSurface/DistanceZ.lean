@@ -74,7 +74,7 @@ theorem colParity_middleRowChain (x : Fin L) :
     simp
   · intro y _ hne
     unfold middleRowChain
-    rw [if_neg]
+    rw [ite_eq_right]
     intro hy
     apply hne
     apply Fin.ext
@@ -213,7 +213,7 @@ private lemma colParity_zCutMap_single (zf : RotatedSurface.ZFaceIdx L) (x : Fin
       ring
     · intro zf' _ hne
       have h0 : (Pi.single zf 1 : RotatedSurface.ZFaceIdx L → ZMod 2) zf' = 0 := by
-        rw [Pi.single_apply, if_neg hne]
+        rw [Pi.single_apply, ite_eq_right hne]
       rw [h0]; ring
     · intro hcontra; exact absurd (Finset.mem_univ zf) hcontra]
   rw [Finset.sum_boole]
@@ -366,11 +366,11 @@ private lemma rscBoundary1_pi_single
   classical
   rw [RotatedSurface.rscBoundary1_apply]
   by_cases hv : v ∈ RotatedSurface.zSupport zf
-  · rw [if_pos hv, Finset.sum_eq_single_of_mem v hv]
+  · rw [ite_eq_left hv, Finset.sum_eq_single_of_mem v hv]
     · simp
     · intro u _ hne
       simp [hne]
-  · rw [if_neg hv]
+  · rw [ite_eq_right hv]
     apply Finset.sum_eq_zero
     intro u hu
     have hne : u ≠ v := fun heq => hv (heq ▸ hu)
@@ -435,7 +435,7 @@ theorem dualBoundaries_le_dualCycles :
     by_cases hp : p = xf
     · subst hp
       rw [Pi.single_eq_same, Pi.single_eq_same, _root_.one_mul]
-    · rw [Pi.single_apply, if_neg hp, Pi.single_apply, if_neg hp, MulZeroClass.zero_mul]
+    · rw [Pi.single_apply, ite_eq_right hp, Pi.single_apply, ite_eq_right hp, MulZeroClass.zero_mul]
   have h_RHS : (∑ p : RotatedSurface.XFaceIdx L,
       (Pi.single xf 1 : RotatedSurface.XFaceIdx L → ZMod 2) p *
         (RotatedSurface.rotatedSurfaceHomologicalCode L).dualBoundary

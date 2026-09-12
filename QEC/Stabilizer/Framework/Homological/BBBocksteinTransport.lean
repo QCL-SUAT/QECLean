@@ -77,13 +77,13 @@ def joinHalves (vL vR : G → ZMod 2) : G × Fin 2 → ZMod 2 :=
     leftHalf (joinHalves vL vR) = vL := by
   funext g
   change (if (0 : Fin 2) = 0 then vL g else vR g) = vL g
-  rw [if_pos rfl]
+  rw [ite_eq_left rfl]
 
 @[simp] lemma rightHalf_joinHalves (vL vR : G → ZMod 2) :
     rightHalf (joinHalves vL vR) = vR := by
   funext g
   change (if (1 : Fin 2) = 0 then vL g else vR g) = vR g
-  rw [if_neg (by decide)]
+  rw [ite_eq_right (by decide)]
 
 /-- Two 1-chains with equal halves are equal. -/
 lemma eq_of_halves {v w : G × Fin 2 → ZMod 2}
@@ -106,14 +106,14 @@ lemma leftHalf_bbBoundary2Fn (A B f : G → ZMod 2) :
     leftHalf (bbBoundary2Fn A B f) = A ⋆ f := by
   funext g
   change (if (0 : Fin 2) = 0 then (A ⋆ f) g else (B ⋆ f) g) = (A ⋆ f) g
-  rw [if_pos rfl]
+  rw [ite_eq_left rfl]
 
 /-- The right half of `∂₂ f` is `B ⋆ f`. -/
 lemma rightHalf_bbBoundary2Fn (A B f : G → ZMod 2) :
     rightHalf (bbBoundary2Fn A B f) = B ⋆ f := by
   funext g
   change (if (1 : Fin 2) = 0 then (A ⋆ f) g else (B ⋆ f) g) = (B ⋆ f) g
-  rw [if_neg (by decide)]
+  rw [ite_eq_right (by decide)]
 
 end BoundaryHalves
 
@@ -206,6 +206,7 @@ end RingLift
 section ConvBridges
 
 set_option backward.isDefEq.respectTransparency false in
+set_option linter.deprecated false in
 /-- `convEquiv` sends `1 + x^σ` to the chain `δ₀ + δ_σ` (the shape of
 `deckPoly`). -/
 lemma convEquiv_one_add_single {G : Type} [Fintype G] [AddCommGroup G]
@@ -221,6 +222,7 @@ lemma convEquiv_one_add_single {G : Type} [Fintype G] [AddCommGroup G]
     exact if_congr eq_comm rfl rfl
 
 set_option backward.isDefEq.respectTransparency false in
+set_option linter.deprecated false in
 /-- Under `convEquiv`, the group-algebra pushforward `mapDomain q` is the
 chain-level fiber sum along `q`. -/
 lemma convEquiv_mapDomainRingHom {Ghat G : Type}
@@ -242,9 +244,9 @@ lemma convEquiv_mapDomainRingHom {Ghat G : Type}
     funext j
     rw [convEquiv_apply, fiberSumFn_apply, Finset.sum_eq_single g0]
     · rw [convEquiv_apply, AddMonoidAlgebra.coeff_single_apply,
-        AddMonoidAlgebra.coeff_single_apply, if_pos rfl]
+        AddMonoidAlgebra.coeff_single_apply, ite_eq_left rfl]
     · intro g1 _ hne
-      rw [convEquiv_apply, AddMonoidAlgebra.coeff_single_apply, if_neg (Ne.symm hne)]
+      rw [convEquiv_apply, AddMonoidAlgebra.coeff_single_apply, ite_eq_right (Ne.symm hne)]
       exact ite_self 0
     · intro habs
       exact absurd (Finset.mem_univ g0) habs
@@ -511,6 +513,7 @@ theorem finrank_ker_epsH1_eq_of_elementForm (hEF : D.BocksteinElementForm) :
 section OrderFourLift
 
 set_option backward.isDefEq.respectTransparency false in
+set_option linter.style.haveILetI false in
 /-- **The element form from an order-4 lift.** If the deck `σ = deckS` lifts one
 rung up the doubling tower — a group `Ĝ` with `σ̂` of exact order 4 and a
 surjection `q : Ĝ →+ G` with `q σ̂ = σ` and `ker q = {0, σ̂ + σ̂}` — then

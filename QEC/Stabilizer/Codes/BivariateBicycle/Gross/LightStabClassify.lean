@@ -143,8 +143,8 @@ theorem foldl_testBit (P : Nat → Prop) [DecidablePred P] (i : Nat) :
     have hstep : ((if P j then a0 ^^^ (1 <<< j) else a0).testBit i)
         = (a0.testBit i ^^ (decide (P j) && decide (j = i))) := by
       by_cases hpj : P j
-      · rw [if_pos hpj, Nat.testBit_xor, Nat.shiftLeft_eq, one_mul, Nat.testBit_two_pow]; simp [hpj]
-      · rw [if_neg hpj]; simp [hpj]
+      · rw [ite_eq_left hpj, Nat.testBit_xor, Nat.shiftLeft_eq, one_mul, Nat.testBit_two_pow]; simp [hpj]
+      · rw [ite_eq_right hpj]; simp [hpj]
     rw [hstep]
     by_cases hij : i = j
     · subst hij
@@ -606,7 +606,7 @@ theorem testBit_supMask (L : List (Fin 36)) (j : Nat) :
     rw [supMask_cons, Nat.testBit_xor, ih, Nat.shiftLeft_eq, one_mul, Nat.testBit_two_pow,
       List.countP_cons]
     by_cases h : a.val = j
-    · simp only [h, decide_true, beq_self_eq_true, if_true, Bool.true_xor,
+    · simp only [h, decide_true, beq_self_eq_true, ite_true, Bool.true_xor,
         Nat.odd_add_one, decide_not]
     · have hb : (a.val == j) = false := by simp [h]
       simp only [h, decide_false, Bool.false_xor]
@@ -1286,10 +1286,10 @@ theorem boundary_swapFn (f : BaseGroup → ZMod 2) :
   fin_cases j
   · change (if (0 : Fin 2) = 0 then (baseB ⋆ f) (swap h) else (baseA ⋆ f) (swap h))
       = bbBoundary2Fn baseA baseB f (swap h, swapF2 0)
-    rw [if_pos rfl]; rfl
+    rw [ite_eq_left rfl]; rfl
   · change (if (1 : Fin 2) = 0 then (baseB ⋆ f) (swap h) else (baseA ⋆ f) (swap h))
       = bbBoundary2Fn baseA baseB f (swap h, swapF2 1)
-    rw [if_neg (by decide)]; rfl
+    rw [ite_eq_right (by decide)]; rfl
 
 theorem bnSwap_bnSwap (b : BaseGroup × Fin 2 → ZMod 2) : bnSwap (bnSwap b) = b := by
   funext p; obtain ⟨h, j⟩ := p
@@ -1368,8 +1368,8 @@ theorem lightStabilizerClassification_holds : LightStabilizerClassification := b
       change (if j = 0 then (baseA ⋆ f) h else (baseB ⋆ f) h)
         = (0 : BaseGroup × Fin 2 → ZMod 2) (h, j)
       by_cases hj : j = 0
-      · rw [if_pos hj, hA0]; rfl
-      · rw [if_neg hj, hB0]; rfl
+      · rw [ite_eq_left hj, hA0]; rfl
+      · rw [ite_eq_right hj, hB0]; rfl
     have h16 := oneBlock_ge16 f hA0 hBne0
     have hble : bwt (baseB ⋆ f) ≤ 10 := le_trans (bwt_baseB_le_boundary f) hle10
     omega

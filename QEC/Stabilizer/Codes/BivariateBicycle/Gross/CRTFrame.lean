@@ -311,8 +311,9 @@ theorem V_zero (psi : BaseGroup → Fin 4) (s : ZMod 2 × ZMod 2) :
   rw [this]
   induction allG with
   | nil => rfl
-  | cons a t ih => simp only [Bool.false_eq_true, if_false]; exact ih
+  | cons a t ih => simp only [Bool.false_eq_true, ite_false]; exact ih
 
+set_option linter.unnecessarySimpa false in
 /-- `rmul P 0 = 0`. -/
 theorem rmul_zero_right (P : ZMod 2 × ZMod 2 → Fin 4) :
     rmul P (fun _ => 0) = fun _ => 0 := by
@@ -335,10 +336,10 @@ theorem ind_insert {p : BaseGroup} {S : Finset BaseGroup} (hp : p ∉ S) :
   simp only [ind, Finset.mem_insert, Pi.add_apply, Pi.single_apply]
   by_cases hgp : g = p
   · have hgS : g ∉ S := by rw [hgp]; exact hp
-    rw [if_pos (Or.inl hgp), if_pos hgp, if_neg hgS, add_zero]
+    rw [ite_eq_left (Or.inl hgp), ite_eq_left hgp, ite_eq_right hgS, add_zero]
   · by_cases hgS : g ∈ S
-    · rw [if_pos (Or.inr hgS), if_neg hgp, if_pos hgS, zero_add]
-    · rw [if_neg (not_or.mpr ⟨hgp, hgS⟩), if_neg hgp, if_neg hgS, add_zero]
+    · rw [ite_eq_left (Or.inr hgS), ite_eq_right hgp, ite_eq_left hgS, zero_add]
+    · rw [ite_eq_right (not_or.mpr ⟨hgp, hgS⟩), ite_eq_right hgp, ite_eq_right hgS, add_zero]
 
 theorem self_eq_ind_filter (z : BaseGroup → ZMod 2) :
     z = ind (Finset.univ.filter (fun p => z p = 1)) := by

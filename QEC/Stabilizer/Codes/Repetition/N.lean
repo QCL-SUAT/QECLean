@@ -151,7 +151,7 @@ lemma sum_ZColumn_zero (n : ℕ) (f : Fin (generatorsList n).length → ZMod 2) 
   simp only [mul_ite, mul_zero]
   have sum_eq : (∑ x, if x = a then f x * 1 else 0) = (∑ x, if x = a then f x else 0) :=
     Finset.sum_congr rfl (fun x _ => by split_ifs <;> simp [*])
-  rw [sum_eq, Finset.sum_ite_eq' Finset.univ a f, if_pos (Finset.mem_univ a)]
+  rw [sum_eq, Finset.sum_ite_eq' Finset.univ a f, ite_eq_left (Finset.mem_univ a)]
 
 /-- At Z-column for qubit `n+1`, only row `rowIdx n ⟨n, _⟩` contributes. -/
 lemma sum_ZColumn_last (n : ℕ) (f : Fin (generatorsList n).length → ZMod 2) :
@@ -194,7 +194,7 @@ lemma sum_ZColumn_last (n : ℕ) (f : Fin (generatorsList n).length → ZMod 2) 
   simp only [mul_ite, mul_zero]
   have sum_eq : (∑ x, if x = a then f x * 1 else 0) = (∑ x, if x = a then f x else 0) :=
     Finset.sum_congr rfl (fun x _ => by split_ifs <;> simp [*])
-  rw [sum_eq, Finset.sum_ite_eq' Finset.univ a f, if_pos (Finset.mem_univ a)]
+  rw [sum_eq, Finset.sum_ite_eq' Finset.univ a f, ite_eq_left (Finset.mem_univ a)]
 
 /-- At Z-column for qubit `j` with `1 ≤ j ≤ n`, rows `rowIdx n (j-1)` and
 `rowIdx n j` contribute. -/
@@ -363,7 +363,7 @@ private lemma logicalX_commutes_ZPair (n : ℕ) (i : Fin (n + 1)) :
     · subst hj2
       simp only [↓reduceIte, PauliOperator.mulOp_X_Z, Fin.isValue, PauliOperator.mulOp_Z_X,
         Fin.reduceAdd, or_true]
-    · simp only [if_neg hj1, if_neg hj2, PauliOperator.mulOp_X_I, PauliOperator.mulOp_I_X]
+    · simp only [ite_eq_right hj1, ite_eq_right hj2, PauliOperator.mulOp_X_I, PauliOperator.mulOp_I_X]
       omega
   rw [hfilter]
   have hne : Fin.castSucc i ∉ {Fin.succ i} :=
@@ -384,7 +384,7 @@ private lemma logicalZ_commutes_ZPair (n : ℕ) (i : Fin (n + 1)) :
     simp only [logicalZ, NQubitPauliOperator.Z, ZPair, NQubitPauliOperator.set,
       ↓reduceIte]
   · simp only [logicalZ, NQubitPauliOperator.Z, ZPair, NQubitPauliOperator.set,
-    NQubitPauliOperator.identity, if_neg hj1, if_neg hj2, PauliOperator.mulOp_Z_I,
+    NQubitPauliOperator.identity, ite_eq_right hj1, ite_eq_right hj2, PauliOperator.mulOp_Z_I,
     PauliOperator.mulOp_I_Z]
 
 /-!

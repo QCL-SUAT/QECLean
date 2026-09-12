@@ -83,8 +83,8 @@ lemma embedBlock_isZ (b : Fin n₂) {g : NQubitPauliGroupElement n₁}
   refine ⟨rfl, fun q => ?_⟩
   simp only [embedBlock_operators, embedBlockOp]
   by_cases hbq : blockOf q = b
-  · rw [if_pos hbq]; exact hg.2 (posOf q)
-  · rw [if_neg hbq]; exact Or.inl rfl
+  · rw [ite_eq_left hbq]; exact hg.2 (posOf q)
+  · rw [ite_eq_right hbq]; exact Or.inl rfl
 
 /-- Embedding an X-type element into a block yields an X-type element. -/
 lemma embedBlock_isX (b : Fin n₂) {g : NQubitPauliGroupElement n₁}
@@ -92,8 +92,8 @@ lemma embedBlock_isX (b : Fin n₂) {g : NQubitPauliGroupElement n₁}
   refine ⟨rfl, fun q => ?_⟩
   simp only [embedBlock_operators, embedBlockOp]
   by_cases hbq : blockOf q = b
-  · rw [if_pos hbq]; exact hg.2 (posOf q)
-  · rw [if_neg hbq]; exact Or.inl rfl
+  · rw [ite_eq_left hbq]; exact hg.2 (posOf q)
+  · rw [ite_eq_right hbq]; exact Or.inl rfl
 
 /-- An X-type operator tensor has no `Y` component (feeds the `no-Y` hypotheses
 of `promote_anticommute_parity`). -/

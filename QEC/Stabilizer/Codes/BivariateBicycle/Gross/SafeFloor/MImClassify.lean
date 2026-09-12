@@ -220,8 +220,8 @@ theorem bb2_sparse (f : BaseGroup → ZMod 2) (p : BaseGroup) (j : Fin 2) :
     conv_indicator3 ((0, 3) : BaseGroup) (1, 0) (2, 0)
       (by decide) (by decide) (by decide) f p
   by_cases hj : j = 0
-  · rw [if_pos hj, if_pos hj, hA]
-  · rw [if_neg hj, if_neg hj, hB]
+  · rw [ite_eq_left hj, ite_eq_left hj, hA]
+  · rw [ite_eq_right hj, ite_eq_right hj, hB]
 
 private theorem bb2_kb_zero_aux :
     (∀ p : BaseGroup, ∀ j : Fin 2,
@@ -318,8 +318,8 @@ private theorem seamC_gated (c : ZMod 2) (kb : BaseGroup → ZMod 2) (m : Nat)
     (h : seamC kb = chainOfMask m) :
     seamC (if c = 1 then kb else 0) = chainOfMask (if c = 1 then m else 0) := by
   by_cases hc : c = 1
-  · rw [if_pos hc, if_pos hc, h]
-  · rw [if_neg hc, if_neg hc, seamC_zero_fn, chainOfMask_zero]
+  · rw [ite_eq_left hc, ite_eq_left hc, h]
+  · rw [ite_eq_right hc, ite_eq_right hc, seamC_zero_fn, chainOfMask_zero]
 
 /-- The packed seam profile of the Smith class `kcombo c₀…c₅`. -/
 def comboMask (c0 c1 c2 c3 c4 c5 : ZMod 2) : Nat :=
@@ -346,8 +346,8 @@ theorem bb2_kcombo (c0 c1 c2 c3 c4 c5 : ZMod 2) :
       bbBoundary2Fn baseA baseB (if c = 1 then kb else 0) = 0 := by
     intro c kb h
     by_cases hc : c = 1
-    · rwa [if_pos hc]
-    · rw [if_neg hc]
+    · rwa [ite_eq_left hc]
+    · rw [ite_eq_right hc]
       funext q; obtain ⟨p, j⟩ := q
       rw [bb2_sparse]
       simp

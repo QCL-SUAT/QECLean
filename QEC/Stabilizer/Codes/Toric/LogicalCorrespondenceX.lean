@@ -89,7 +89,7 @@ theorem anticommutesAt_vertexStab_toricX_iff
         i ∈ (StabilizerGroup.ToricCodeN.vertexStab L xv yv).operators.support ∧
         i ∈ (toricXOperatorOfChain L c).operators.support := by
   have hL0 : 0 < L := Nat.lt_of_lt_of_le (by decide : 0 < 2) (Fact.out : 2 ≤ L)
-  haveI : Fact (0 < L) := ⟨hL0⟩
+  have : Fact (0 < L) := ⟨hL0⟩
   have hxType : NQubitPauliOperator.IsXType (toricXOperatorOfChain L c).operators := by
     intro j
     by_cases h : ∃ e : EdgeIdx L, edgeToQubitIdx L e = j ∧ c e = 1
@@ -116,7 +116,7 @@ theorem anticommutesAt_vertexStab_toricX_iff_oneOfFour
         (i = incidentQubitIdx4 L xv yv ∧
           c (EdgeIdx.v xv (StabilizerGroup.ToricCodeN.prev L yv)) = 1) := by
   have hL0 : 0 < L := Nat.lt_of_lt_of_le (by decide : 0 < 2) (Fact.out : 2 ≤ L)
-  haveI : Fact (0 < L) := ⟨hL0⟩
+  have : Fact (0 < L) := ⟨hL0⟩
   rw [anticommutesAt_vertexStab_toricX_iff]
   rw [StabilizerGroup.ToricCodeN.mem_support_vertexStab_iff]
   constructor
@@ -344,7 +344,7 @@ This delegates to the generic
 `HomologicalCode` instance and the lattice/abstract generator-set bridge. -/
 theorem xCommutesWithZChecks_iff_mem_toricCycles (L : ℕ) [Fact (2 ≤ L)] (c : C1 L) :
     xCommutesWithZChecks L c ↔ c ∈ Z₁ L := by
-  haveI : Fact (0 < L) := ⟨Nat.lt_of_lt_of_le (by decide : 0 < 2) Fact.out⟩
+  have : Fact (0 < L) := ⟨Nat.lt_of_lt_of_le (by decide : 0 < 2) Fact.out⟩
   unfold xCommutesWithZChecks
   rw [← toricHomologicalCode_ZGenerators_eq]
   exact (toricHomologicalCode L).chainXOperator_commutes_ZGenerators_iff_mem_cycles c
@@ -366,7 +366,7 @@ Delegates to `chainXOperator_mem_XClosure_iff_mem_boundaries` on the toric
 `HomologicalCode` instance via the X-generator bridge. -/
 theorem xIsPlaquetteProduct_iff_mem_toricBoundaries (L : ℕ) [Fact (2 ≤ L)] (c : C1 L) :
     xIsPlaquetteProduct L c ↔ c ∈ B₁ L := by
-  haveI : Fact (0 < L) := ⟨Nat.lt_of_lt_of_le (by decide : 0 < 2) Fact.out⟩
+  have : Fact (0 < L) := ⟨Nat.lt_of_lt_of_le (by decide : 0 < 2) Fact.out⟩
   unfold xIsPlaquetteProduct
   rw [← toricHomologicalCode_XGenerators_eq]
   exact (toricHomologicalCode L).chainXOperator_mem_XClosure_iff_mem_boundaries c
@@ -568,7 +568,7 @@ theorem xNontrivialLogical_iff_cycle_not_boundary (L : ℕ) [Fact (2 ≤ L)] (c 
     StabilizerGroup.IsNontrivialLogicalOperator
         (toricXOperatorOfChain L c) (StabilizerGroup.ToricCodeN.stabilizerGroup L) ↔
       c ∈ Z₁ L ∧ c ∉ B₁ L := by
-  haveI : Fact (0 < L) := ⟨Nat.lt_of_lt_of_le (by decide : 0 < 2) Fact.out⟩
+  have : Fact (0 < L) := ⟨Nat.lt_of_lt_of_le (by decide : 0 < 2) Fact.out⟩
   -- The toric and abstract stabilizer groups have the same underlying subgroup
   -- once we translate the lattice generator sets via the §E bridges.
   have h_subgroup_eq :

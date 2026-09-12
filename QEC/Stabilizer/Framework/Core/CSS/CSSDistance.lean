@@ -55,10 +55,10 @@ theorem no_weight_one_mem_centralizer_of_anticommute_witness (S : StabilizerGrou
     · simp [hk]
     · have hk' : k ∉ support g := by rw [hi_supp, Finset.mem_singleton]; exact hk
       have h_op_k : g.operators k = .I := by by_contra h; exact hk' ((mem_support g k).mpr h)
-      simp only [hk, if_false, h_op_k]
+      simp only [hk, ite_false, h_op_k]
   obtain ⟨s, hs_mem, h_anti⟩ := h_anticomm i (g.operators i) hi_ne_I
   have heq : g.operators = (weightOneAt i (g.operators i)).operators := by
-    simp only [weightOneAt, ofOperator_operators]; exact hop
+    simp only [weightOneAt ]; exact hop
   have h_anti_g : Anticommute g s := by
     rw [anticommutes_iff_mulOp_phasePower] at h_anti
     rw [anticommutes_iff_mulOp_phasePower]; rw [heq]; exact h_anti
@@ -127,7 +127,7 @@ theorem no_weight_two_mem_centralizer_of_anticommute_witness (S : StabilizerGrou
         simp [hki, hkj, h_op_k]
   obtain ⟨s, hs_mem, h_anti⟩ := h_anticomm i j hij (g.operators i) (g.operators j) hi_ne_I hj_ne_I
   have heq : g.operators = (weightTwoAt i j (g.operators i) (g.operators j)).operators := by
-    simp only [weightTwoAt, ofOperator_operators]; exact hop
+    simp only [weightTwoAt ]; exact hop
   have h_anti_g : Anticommute g s := by
     rw [anticommutes_iff_mulOp_phasePower] at h_anti
     rw [anticommutes_iff_mulOp_phasePower]; rw [heq]; exact h_anti

@@ -53,7 +53,7 @@ def chainOfZOperator (L : ℕ) (g : NQubitPauliGroupElement (toricNumQubits L)) 
 theorem chainOfZOperator_toricZOperatorOfChain (L : ℕ) (c : C1 L) :
     chainOfZOperator L (toricZOperatorOfChain L c) = c := by
   by_cases hL : 0 < L
-  · letI : Fact (0 < L) := ⟨hL⟩
+  · let : Fact (0 < L) := ⟨hL⟩
     ext e
     by_cases hce : c e = 1
     · have hex : ∃ e' : EdgeIdx L, edgeToQubitIdx L e' = edgeToQubitIdx L e ∧ c e' = 1 :=
@@ -275,7 +275,7 @@ lemma toricZOperatorOfChain_cutMap_singleVtx (L : ℕ) [Fact (2 ≤ L)]
     toricZOperatorOfChain L (δ⁰ (L := L) (singleVtx (xv, yv))) =
       StabilizerGroup.ToricCodeN.vertexStab L xv yv := by
   have hL0 : 0 < L := Nat.lt_of_lt_of_le (by decide : 0 < 2) (Fact.out : 2 ≤ L)
-  haveI : Fact (0 < L) := ⟨hL0⟩
+  have : Fact (0 < L) := ⟨hL0⟩
   unfold toricZOperatorOfChain StabilizerGroup.ToricCodeN.vertexStab
   congr with q
   split_ifs <;> simp_all +decide [NQubitPauliOperator.set]

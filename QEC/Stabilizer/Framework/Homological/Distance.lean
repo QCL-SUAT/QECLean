@@ -71,7 +71,7 @@ lemma xChainOf_chainXOperator (c : X.C1 → ZMod 2) :
       ⟨e, rfl, h⟩
     have h_op : (X.chainXOperator c).operators (X.edgeEquiv e) = PauliOperator.X := by
       rw [chainXOperator_op_at]
-      exact if_pos hex
+      exact ite_eq_left hex
     rw [h_op]; simp [h]
   · have hnot : ¬ ∃ e' : X.C1, X.edgeEquiv e' = X.edgeEquiv e ∧ c e' = 1 := by
       rintro ⟨e', heq, he1⟩
@@ -79,7 +79,7 @@ lemma xChainOf_chainXOperator (c : X.C1 → ZMod 2) :
       exact h (he' ▸ he1)
     have h_op : (X.chainXOperator c).operators (X.edgeEquiv e) = PauliOperator.I := by
       rw [chainXOperator_op_at]
-      exact if_neg hnot
+      exact ite_eq_right hnot
     have h0 : c e = 0 := (zmod2_dichotomy_local (c e)).resolve_right h
     rw [h_op]; simp [h0]
 
@@ -155,7 +155,7 @@ lemma chainXOperator_xChainOf_op_at
       rw [hei]
       simp [hxy]
     have hex : ∃ e' : X.C1, X.edgeEquiv e' = i ∧ X.xChainOf g e' = 1 := ⟨e, hei, hx1⟩
-    rw [if_pos hex, if_pos hxy]
+    rw [ite_eq_left hex, ite_eq_left hxy]
   · push Not at hxy
     have hex : ¬ ∃ e' : X.C1, X.edgeEquiv e' = i ∧ X.xChainOf g e' = 1 := by
       rintro ⟨e', hei, he1⟩
@@ -165,8 +165,8 @@ lemma chainXOperator_xChainOf_op_at
         simp [hxy.1, hxy.2]
       rw [h0] at he1
       exact absurd he1 (by decide)
-    rw [if_neg hex]
-    rw [if_neg]
+    rw [ite_eq_right hex]
+    rw [ite_eq_right]
     push Not
     exact hxy
 
@@ -186,7 +186,7 @@ lemma chainZOperator_zChainOf_op_at
       rw [hei]
       simp [hzy]
     have hex : ∃ e' : X.C1, X.edgeEquiv e' = i ∧ X.zChainOf g e' = 1 := ⟨e, hei, hz1⟩
-    rw [if_pos hex, if_pos hzy]
+    rw [ite_eq_left hex, ite_eq_left hzy]
   · push Not at hzy
     have hex : ¬ ∃ e' : X.C1, X.edgeEquiv e' = i ∧ X.zChainOf g e' = 1 := by
       rintro ⟨e', hei, he1⟩
@@ -196,8 +196,8 @@ lemma chainZOperator_zChainOf_op_at
         simp [hzy.1, hzy.2]
       rw [h0] at he1
       exact absurd he1 (by decide)
-    rw [if_neg hex]
-    rw [if_neg]
+    rw [ite_eq_right hex]
+    rw [ite_eq_right]
     push Not
     exact hzy
 

@@ -22,7 +22,7 @@ lemma listToSet_map_product_finRange_eq_range {n L : ℕ}
         (((List.finRange L).product (List.finRange L)).map f) =
       Set.range f := by
   ext g
-  rw [NQubitPauliGroupElement.listToSet, Set.mem_setOf, Set.mem_range]
+  rw [NQubitPauliGroupElement.listToSet, Set.mem_ofPred, Set.mem_range]
   constructor
   · intro hg
     rcases List.mem_map.mp hg with ⟨a, ha, hag⟩

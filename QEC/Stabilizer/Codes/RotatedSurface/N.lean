@@ -144,7 +144,7 @@ private lemma listToSet_map_finsetUnivToList {α : Type*} [Fintype α]
     {n : ℕ} (f : α → NQubitPauliGroupElement n) :
     listToSet ((Finset.univ : Finset α).toList.map f) = Set.range f := by
   ext g
-  simp only [listToSet, Set.mem_setOf, Set.mem_range, List.mem_map,
+  simp only [listToSet, Set.mem_ofPred, Set.mem_range, List.mem_map,
     Finset.mem_toList, Finset.mem_univ, true_and]
 
 lemma listToSet_generatorsListZ :

@@ -81,7 +81,7 @@ lemma mem_support_chainXOperator_iff (c : X.C1 → ZMod 2) (e : X.C1) :
     have hI :
         (X.chainXOperator c).operators (X.edgeEquiv e) = PauliOperator.I := by
       rw [chainXOperator_op_at]
-      exact if_neg hnot
+      exact ite_eq_right hnot
     have hneqI :
         (X.chainXOperator c).operators (X.edgeEquiv e) ≠ PauliOperator.I := by
       simpa [NQubitPauliOperator.support] using hmem
@@ -92,7 +92,7 @@ lemma mem_support_chainXOperator_iff (c : X.C1 → ZMod 2) (e : X.C1) :
     have hX :
         (X.chainXOperator c).operators (X.edgeEquiv e) = PauliOperator.X := by
       rw [chainXOperator_op_at]
-      exact if_pos hex
+      exact ite_eq_left hex
     simp [NQubitPauliOperator.support, hX]
 
 /-- An edge `e` is in the support of `chainZOperator c` iff `c e = 1`. -/
@@ -109,7 +109,7 @@ lemma mem_support_chainZOperator_iff (c : X.C1 → ZMod 2) (e : X.C1) :
     have hI :
         (X.chainZOperator c).operators (X.edgeEquiv e) = PauliOperator.I := by
       rw [chainZOperator_op_at]
-      exact if_neg hnot
+      exact ite_eq_right hnot
     have hneqI :
         (X.chainZOperator c).operators (X.edgeEquiv e) ≠ PauliOperator.I := by
       simpa [NQubitPauliOperator.support] using hmem
@@ -120,7 +120,7 @@ lemma mem_support_chainZOperator_iff (c : X.C1 → ZMod 2) (e : X.C1) :
     have hZ :
         (X.chainZOperator c).operators (X.edgeEquiv e) = PauliOperator.Z := by
       rw [chainZOperator_op_at]
-      exact if_pos hex
+      exact ite_eq_left hex
     simp [NQubitPauliOperator.support, hZ]
 
 /-- Helper: every `ZMod 2` element is `0` or `1`. -/

@@ -534,7 +534,7 @@ theorem oneBlock_core (b : BaseGroup → ZMod 2)
     have hfloor : ∀ s, 6 * (if V psi1 s b ≠ 0 then 1 else 0) ≤ weight3 (slice b s) := by
       intro s
       by_cases hv1 : V psi1 s b ≠ 0
-      · rw [if_pos hv1, mul_one]
+      · rw [ite_eq_left hv1, mul_one]
         refine d3_psi1_ge6 (slice b s) (hsl_ne s (Or.inl hv1)) ?_
         have h11 : fhat3 (slice b s) (1, 1) = 0 := (fourier_bridge3 b s).symm.trans (h3z s)
         unfold suppOutsideZero dead1
@@ -547,7 +547,7 @@ theorem oneBlock_core (b : BaseGroup → ZMod 2)
         · exact hf10 s
         · exact h11
         · exact hf12 s
-      · rw [if_neg hv1, mul_zero]; exact Nat.zero_le _
+      · rw [ite_eq_right hv1, mul_zero]; exact Nat.zero_le _
     calc 16 ≤ 6 * nLayers (fun s => V psi1 s b) := by omega
       _ = 6 * (Finset.univ.filter (fun s => V psi1 s b ≠ 0)).card := by rw [nLayers_eq_card]
       _ = ∑ s : ZMod 2 × ZMod 2, 6 * (if V psi1 s b ≠ 0 then 1 else 0) := by
@@ -642,7 +642,7 @@ theorem bwt_baseB_le_boundary (f : BaseGroup → ZMod 2) :
   unfold bwt
   apply Finset.card_le_card_of_injOn (fun h => (h, (1 : Fin 2)))
   · intro h hh
-    simp only [Finset.coe_filter, Finset.mem_univ, true_and, Set.mem_setOf_eq] at hh ⊢
+    simp only [Finset.coe_filter, Finset.mem_univ, true_and, Set.mem_ofPred_eq] at hh ⊢
     show bbBoundary2Fn baseA baseB f (h, 1) ≠ 0
     rw [bb2_one, hh]; exact one_ne_zero
   · intro a _ b _ hab; exact congrArg Prod.fst hab
@@ -678,8 +678,8 @@ theorem transfer_hexagon (f : BaseGroup → ZMod 2) (g : BaseGroup)
   show (if j = 0 then (baseA ⋆ f) h else (baseB ⋆ f) h)
       = (if j = 0 then (baseA ⋆ δ) h else (baseB ⋆ δ) h)
   by_cases hj : j = 0
-  · rw [if_pos hj, if_pos hj]; exact congrFun hA h
-  · rw [if_neg hj, if_neg hj]; exact congrFun hBeq h
+  · rw [ite_eq_left hj, ite_eq_left hj]; exact congrFun hA h
+  · rw [ite_eq_right hj, ite_eq_right hj]; exact congrFun hBeq h
 
 /-- Block-weight decomposition (≤): the two blocks' weights sum to at most
 `|∂₂f|` (disjoint `h↦(h,0)` / `h↦(h,1)` injections into the boundary support).
@@ -770,8 +770,8 @@ theorem transfer_dpair (f : BaseGroup → ZMod 2) (g d : BaseGroup) (hd : d ∈ 
   show (if j = 0 then (baseA ⋆ f) h else (baseB ⋆ f) h)
       = (if j = 0 then (baseA ⋆ wit) h else (baseB ⋆ wit) h)
   by_cases hj : j = 0
-  · rw [if_pos hj, if_pos hj]; exact congrFun hA h
-  · rw [if_neg hj, if_neg hj]; exact congrFun hBeq h
+  · rw [ite_eq_left hj, ite_eq_left hj]; exact congrFun hA h
+  · rw [ite_eq_right hj, ite_eq_right hj]; exact congrFun hBeq h
 
 end LightStab
 end BB

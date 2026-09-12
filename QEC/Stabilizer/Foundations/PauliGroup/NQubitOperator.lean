@@ -143,7 +143,7 @@ lemma toMatrix_mem_unitaryGroup (op : NQubitPauliOperator n) :
   simp_all +decide [ Matrix.one_apply ];
   by_cases hi : i = j <;> simp +decide [ hi ];
   exact Finset.prod_eq_zero ( Finset.mem_univ ( Classical.choose
-  ( Function.ne_iff.mp hi ) ) ) ( if_neg ( Classical.choose_spec
+  ( Function.ne_iff.mp hi ) ) ) ( ite_eq_right ( Classical.choose_spec
   ( Function.ne_iff.mp hi ) ) )
 
 /-- Convert an n-qubit Pauli operator to its underlying gate.

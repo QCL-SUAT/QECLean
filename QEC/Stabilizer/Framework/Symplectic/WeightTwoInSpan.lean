@@ -19,7 +19,7 @@ span. This reduces weight_2_operators_in_span to 36 per-pair lemmas (for n = 9).
 
 namespace NQubitPauliGroupElement
 
-open NQubitPauliOperator Submodule
+open Submodule
 
 /-- Reduction: if for every pair of distinct qubits (i, j), every operator with
     support {i, j} that commutes with all generators is in the symplectic span,

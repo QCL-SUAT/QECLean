@@ -380,7 +380,7 @@ def verticalLoopXOperator (L : ℕ) [Fact (0 < L)] :
 /-- The vertical X-loop chain is a primal cycle. -/
 theorem verticalLoopChain_mem_toricCycles (L : ℕ) [Fact (2 ≤ L)] :
     verticalLoopChain L ∈ Stabilizer.Lattice.toricCycles L := by
-  haveI : Fact (0 < L) := ⟨lt_of_lt_of_le (by decide : 0 < 2) Fact.out⟩
+  have : Fact (0 < L) := ⟨lt_of_lt_of_le (by decide : 0 < 2) Fact.out⟩
   unfold Stabilizer.Lattice.toricCycles
   rw [LinearMap.mem_ker]
   ext ⟨xv, yv⟩
@@ -396,7 +396,7 @@ theorem verticalLoopChain_mem_toricCycles (L : ℕ) [Fact (2 ≤ L)] :
 1). -/
 theorem verticalLoopChain_not_mem_toricBoundaries (L : ℕ) [Fact (2 ≤ L)] :
     verticalLoopChain L ∉ Stabilizer.Lattice.toricBoundaries L := by
-  haveI : Fact (0 < L) := ⟨lt_of_lt_of_le (by decide : 0 < 2) Fact.out⟩
+  have : Fact (0 < L) := ⟨lt_of_lt_of_le (by decide : 0 < 2) Fact.out⟩
   intro h
   have h_vAt : Stabilizer.Lattice.vAt (L := L) (Stabilizer.Lattice.zeroCoord L)
       (verticalLoopChain L) = 0 :=
@@ -415,7 +415,7 @@ theorem verticalLoopChain_not_mem_toricBoundaries (L : ℕ) [Fact (2 ≤ L)] :
 /-- The vertical X-loop chain has edge weight `L`. -/
 theorem verticalLoopChain_edgeWeight_eq_L (L : ℕ) [Fact (2 ≤ L)] :
     Stabilizer.Lattice.edgeWeight (verticalLoopChain L) = L := by
-  haveI : Fact (0 < L) := ⟨lt_of_lt_of_le (by decide : 0 < 2) Fact.out⟩
+  have : Fact (0 < L) := ⟨lt_of_lt_of_le (by decide : 0 < 2) Fact.out⟩
   let z0 : Fin L := Stabilizer.Lattice.zeroCoord L
   let vertCol : Finset (Stabilizer.Lattice.EdgeIdx L) :=
     (Finset.univ.image (fun y : Fin L => Stabilizer.Lattice.EdgeIdx.v z0 y))
