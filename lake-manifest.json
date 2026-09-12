@@ -15,6 +15,18 @@
    "configFile": "lakefile.lean"
   },
   {
+   "url": "https://github.com/hanwenzhu/LeanArchitect.git",
+   "type": "git",
+   "subDir": null,
+   "scope": "",
+   "rev": "819aa8e70f3d2800abf0629a29d7c35bfaafd682",
+   "name": "LeanArchitect",
+   "manifestFile": "lake-manifest.json",
+   "inputRev": "819aa8e70f3d2800abf0629a29d7c35bfaafd682",
+   "inherited": false,
+   "configFile": "lakefile.lean"
+  },
+  {
    "url": "https://github.com/leanprover-community/plausible",
    "type": "git",
    "subDir": null,
@@ -111,7 +123,7 @@
    "configFile": "lakefile.toml"
   }
  ],
- "name": "LeanQEC",
+ "name": "QEC",
  "lakeDir": ".lake",
  "fixedToolchain": false
 }
