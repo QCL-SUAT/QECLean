@@ -1,0 +1,1 @@
+{"decls":{},"directImports":[["QEC.Foundations.Basic",false,false,false],["QEC.Foundations.KetNotation",false,false,false],["QEC.Foundations.Gates",false,false,false],["QEC.Foundations.Tensor",false,false,false],["QEC.Foundations.GateConjugation",false,false,false]],"module":"QEC.Foundations.Foundations","references":{},"version":5}
