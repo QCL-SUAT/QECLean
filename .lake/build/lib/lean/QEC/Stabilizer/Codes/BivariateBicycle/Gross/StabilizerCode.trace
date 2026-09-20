@@ -1,0 +1,107 @@
+{"synthetic": false,
+ "schemaVersion": "2025-09-10",
+ "outputs":
+ {"o": ["8c3b819a8a79a879.olean"],
+  "m": false,
+  "i": "cb86aff4bf1cb2ad.ilean",
+  "c": "9717825ee44e5093.c"},
+ "log":
+ [{"message":
+   ".> LEAN_PATH=C:\\lean\\mathlib4\\.lake\\packages\\Qq\\.lake\\build\\lib\\lean;C:\\lean\\mathlib4\\.lake\\packages\\aesop\\.lake\\build\\lib\\lean;C:\\lean\\mathlib4\\.lake\\packages\\proofwidgets\\.lake\\build\\lib\\lean;C:\\lean\\mathlib4\\.lake\\packages\\importGraph\\.lake\\build\\lib\\lean;C:\\lean\\mathlib4\\.lake\\packages\\LeanSearchClient\\.lake\\build\\lib\\lean;C:\\lean\\mathlib4\\.lake\\packages\\plausible\\.lake\\build\\lib\\lean;C:\\lean\\mathlib4\\.lake\\packages\\batteries\\.lake\\build\\lib\\lean;C:\\lean\\mathlib4\\.lake\\packages\\Cli\\.lake\\build\\lib\\lean;C:\\lean\\mathlib4\\.lake\\build\\lib\\lean;C:\\lean\\LeanArchitect\\.lake\\build\\lib\\lean;C:\\lean\\libs\\QECLean\\.lake\\build\\lib\\lean c:\\Users\\Administrator\\.elan\\toolchains\\leanprover--lean4---v4.34.0\\bin\\lean.exe C:\\lean\\libs\\QECLean\\QEC\\Stabilizer\\Codes\\BivariateBicycle\\Gross\\StabilizerCode.lean -o C:\\lean\\libs\\QECLean\\.lake\\build\\lib\\lean\\QEC\\Stabilizer\\Codes\\BivariateBicycle\\Gross\\StabilizerCode.olean -i C:\\lean\\libs\\QECLean\\.lake\\build\\lib\\lean\\QEC\\Stabilizer\\Codes\\BivariateBicycle\\Gross\\StabilizerCode.ilean -c C:\\lean\\libs\\QECLean\\.lake\\build\\ir\\QEC\\Stabilizer\\Codes\\BivariateBicycle\\Gross\\StabilizerCode.c --setup C:\\lean\\libs\\QECLean\\.lake\\build\\ir\\QEC\\Stabilizer\\Codes\\BivariateBicycle\\Gross\\StabilizerCode.setup.json --json",
+   "level": "trace"},
+  {"message":
+   "QEC/Stabilizer/Codes/BivariateBicycle/Gross/StabilizerCode.lean:1564:0: 'Quantum.Stabilizer.Homological.BB.decoder_identity_X' depends on axioms: [propext, Classical.choice, Quot.sound]",
+   "level": "info"},
+  {"message":
+   "QEC/Stabilizer/Codes/BivariateBicycle/Gross/StabilizerCode.lean:1565:0: 'Quantum.Stabilizer.Homological.BB.decoder_identity_Z' depends on axioms: [propext, Classical.choice, Quot.sound]",
+   "level": "info"},
+  {"message":
+   "QEC/Stabilizer/Codes/BivariateBicycle/Gross/StabilizerCode.lean:1566:0: 'Quantum.Stabilizer.Homological.BB.cover' depends on axioms: [propext, Classical.choice, Quot.sound]",
+   "level": "info"},
+  {"message":
+   "QEC/Stabilizer/Codes/BivariateBicycle/Gross/StabilizerCode.lean:1567:0: 'Quantum.Stabilizer.Homological.BB.faceStabOf_mem_closure' depends on axioms: [propext, Classical.choice, Quot.sound]",
+   "level": "info"},
+  {"message":
+   "QEC/Stabilizer/Codes/BivariateBicycle/Gross/StabilizerCode.lean:1568:0: 'Quantum.Stabilizer.Homological.BB.vertexStabOf_mem_closure' depends on axioms: [propext, Classical.choice, Quot.sound]",
+   "level": "info"},
+  {"message":
+   "QEC/Stabilizer/Codes/BivariateBicycle/Gross/StabilizerCode.lean:1569:0: 'Quantum.Stabilizer.Homological.BB.keptCoords_nodup' depends on axioms: [propext, Quot.sound]",
+   "level": "info"},
+  {"message":
+   "QEC/Stabilizer/Codes/BivariateBicycle/Gross/StabilizerCode.lean:1570:0: '_private.QEC.Stabilizer.Codes.BivariateBicycle.Gross.StabilizerCode.0.Quantum.Stabilizer.Homological.BB.keptCoords_get_not_dropSet' depends on axioms: [propext,\n Classical.choice,\n Quot.sound]",
+   "level": "info"},
+  {"message":
+   "QEC/Stabilizer/Codes/BivariateBicycle/Gross/StabilizerCode.lean:1571:0: 'Quantum.Stabilizer.Homological.BB.logXchain_cycle' depends on axioms: [propext, Classical.choice, Quot.sound]",
+   "level": "info"},
+  {"message":
+   "QEC/Stabilizer/Codes/BivariateBicycle/Gross/StabilizerCode.lean:1572:0: 'Quantum.Stabilizer.Homological.BB.logZchain_dualCycle' depends on axioms: [propext, Classical.choice, Quot.sound]",
+   "level": "info"},
+  {"message":
+   "QEC/Stabilizer/Codes/BivariateBicycle/Gross/StabilizerCode.lean:1573:0: 'Quantum.Stabilizer.Homological.BB.logChain_inner' depends on axioms: [propext, Classical.choice, Quot.sound]",
+   "level": "info"},
+  {"message":
+   "QEC/Stabilizer/Codes/BivariateBicycle/Gross/StabilizerCode.lean:1574:0: 'Quantum.Stabilizer.Homological.BB.closure_packaged_eq' depends on axioms: [propext, Classical.choice, Quot.sound]",
+   "level": "info"},
+  {"message":
+   "QEC/Stabilizer/Codes/BivariateBicycle/Gross/StabilizerCode.lean:1575:0: 'Quantum.Stabilizer.Homological.BB.rowsLinearIndependent_packaged' depends on axioms: [propext,\n Classical.choice,\n Quot.sound]",
+   "level": "info"},
+  {"message":
+   "QEC/Stabilizer/Codes/BivariateBicycle/Gross/StabilizerCode.lean:1576:0: 'Quantum.Stabilizer.Homological.BB.grossStabilizerCode' depends on axioms: [propext, Classical.choice, Quot.sound]",
+   "level": "info"},
+  {"message":
+   "QEC/Stabilizer/Codes/BivariateBicycle/Gross/StabilizerCode.lean:1577:0: 'Quantum.Stabilizer.Homological.BB.grossStabilizerCode_logical_weight_ge_6' depends on axioms: [propext,\n Classical.choice,\n Quot.sound]",
+   "level": "info"},
+  {"message":
+   "QEC/Stabilizer/Codes/BivariateBicycle/Gross/StabilizerCode.lean:1578:0: 'Quantum.Stabilizer.Homological.BB.grossStabilizerCode_hasCodeDistance_12' depends on axioms: [propext,\n Classical.choice,\n Quot.sound]",
+   "level": "info"}],
+ "inputs":
+ [["deps",
+   [["QEC/QEC:extraDep", [["@QEC:extraDep", "00000000000006bb"]]],
+    ["imports",
+     [["QEC.Stabilizer.Codes.BivariateBicycle.Gross.BaseDistance transitive imports (legacy)",
+       "15845cbee655b282"],
+      ["QEC.Stabilizer.Codes.BivariateBicycle.Gross.BaseDistance:importAllArts",
+       "4c1b4a0a4f489bb8"],
+      ["QEC.Stabilizer.Codes.BivariateBicycle.Gross.SafeSector transitive imports (legacy)",
+       "d06472c6b05d9d3d"],
+      ["QEC.Stabilizer.Codes.BivariateBicycle.Gross.SafeSector:importAllArts",
+       "58ddec1fd9e61c6c"],
+      ["QEC.Stabilizer.Codes.BivariateBicycle.Gross.LightStabClassify transitive imports (legacy)",
+       "e9066269d735e02d"],
+      ["QEC.Stabilizer.Codes.BivariateBicycle.Gross.LightStabClassify:importAllArts",
+       "1a94d23146dbf426"],
+      ["QEC.Stabilizer.Codes.BivariateBicycle.Gross.StabilizerCodeData transitive imports (legacy)",
+       "7f96c72ac292b4b2"],
+      ["QEC.Stabilizer.Codes.BivariateBicycle.Gross.StabilizerCodeData:importAllArts",
+       "b32788d860999185"],
+      ["QEC.Stabilizer.Framework.Homological.LogicalCorrespondence transitive imports (legacy)",
+       "92310d074dd3ca50"],
+      ["QEC.Stabilizer.Framework.Homological.LogicalCorrespondence:importAllArts",
+       "51eb4212a82abdc1"],
+      ["QEC.Stabilizer.Framework.Core.Logical.CodeDistance transitive imports (legacy)",
+       "b9112d72848a2147"],
+      ["QEC.Stabilizer.Framework.Core.Logical.CodeDistance:importAllArts",
+       "a6bb8e2168b1264d"],
+      ["Mathlib.Data.List.GetD transitive imports (legacy)",
+       "10c2a6eb385f7f03"],
+      ["Mathlib.Data.List.GetD:importAllArts", "9aec347a7850fdcf"]]]]],
+  ["libs",
+   [["import dynlibs", "00000000000006bb"],
+    ["package external libraries", "00000000000006bb"],
+    ["module dynlibs", "00000000000006bb"],
+    ["module plugins", "00000000000006bb"]]],
+  ["Lean 4.34.0, commit 293d5d0c0c3f3dded4688b3ccd6a33939ac5102b",
+   "a1c6c7aa3e9abfe7"],
+  ["C:\\lean\\libs\\QECLean\\QEC\\Stabilizer\\Codes\\BivariateBicycle\\Gross\\StabilizerCode.lean",
+   "667830a8626d3e6f"],
+  ["options",
+   [["-DmaxSynthPendingDepth=3", "c78e353d34de85d4"],
+    ["-DrelaxedAutoImplicit=false", "74a2b5546b55be80"],
+    ["-Dpp.unicode.fun=true", "9b94070140457fab"],
+    ["-DautoImplicit=false", "4a85acb881fd49d0"]]],
+  ["isModule: false", "feefd2a0d3a1847e"],
+  ["Module.name: QEC.Stabilizer.Codes.BivariateBicycle.Gross.StabilizerCode",
+   "348e2b097222a1c2"],
+  ["Package.id?: (some QEC)", "93dadbf2094f452e"],
+  ["Module.leanArgs: #[]", "00000000000006bb"]],
+ "depHash": "508487214d055e25"}
