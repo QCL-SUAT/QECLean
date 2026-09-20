@@ -1369,7 +1369,6 @@ private theorem rowsLinearIndependent_generatorsListPackaged (L : ℕ) [Fact (2 
       cZ k * δ⁰ (L := L)
         (Stabilizer.Lattice.singleVtx ((coordsTrimmed L).get k)) e
     rw [smul_eq_mul]
-    rfl
   -- Now apply Z-block kernel collapse to get cZ = 0.
   have hZ_zero : ∀ i, cZ i = 0 := trimmed_combo_singleVtx_eq_zero L cZ h_chain_Z
   -- Symmetric: define cX and apply face-side kernel collapse.
@@ -1502,7 +1501,6 @@ private theorem rowsLinearIndependent_generatorsListPackaged (L : ℕ) [Fact (2 
       cX k * ∂₂ (L := L)
         (Stabilizer.Lattice.singleFace ((coordsTrimmed L).get k)) e
     rw [smul_eq_mul]
-    rfl
   have hX_zero : ∀ i, cX i = 0 := trimmed_combo_singleFace_eq_zero L cX h_chain_X
   -- Combine: f = 0.
   by_cases h : j.val < (coordsTrimmed L).length

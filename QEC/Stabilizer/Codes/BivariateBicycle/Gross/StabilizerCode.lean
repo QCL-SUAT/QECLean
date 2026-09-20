@@ -323,6 +323,7 @@ private lemma row_check_to_zmod {bp cb : Bool} {ep' ep : Nat}
   · simp [hc, z2]
   · simp [hc, z2]
 
+set_option maxHeartbeats 1000000 in
 /-- **Face decoder identity** (kernel-checked via the encoded Bool tables): the
 `phiX` decoder inverts `∂₂` on the trimmed face subspace, modulo the `redP2`
 kernel basis. Over all `72×72` basis pairs. This is the independence hard-core
@@ -353,6 +354,7 @@ theorem decoder_identity_X :
   rw [hmap, sum_map_z2_eq_foldl_xor_false]
   exact h3
 
+set_option maxHeartbeats 1000000 in
 /-- **Vertex decoder identity** (kernel-checked): mirror of `decoder_identity_X`
 for the Z block (`cutMap`, `phiZ`, `redCM`). -/
 theorem decoder_identity_Z :

@@ -108,7 +108,6 @@ lemma toMatrix_mul (p q : NQubitPauliGroupElement n) :
           using 1
       · -- v4.34: `Matrix.mul_apply` no longer fires under `simp_all` here.
         rw [Matrix.mul_apply]
-      · simp [smul_eq_mul]
     simp_all +decide [Finset.prod_mul_distrib, Matrix.mul_apply]
     have h_phasePowerToComplex :
         PauliGroupElement.phasePowerToComplex (p.mul q).phasePower =

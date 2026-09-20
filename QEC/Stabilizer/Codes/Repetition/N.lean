@@ -234,9 +234,15 @@ theorem rowsLinearIndependent_generatorsList (n : ℕ) :
         specialize hf (Fin.natAdd (n + 2) ⟨0, Nat.zero_lt_succ (n + 1)⟩)
         rw [sum_ZColumn_zero] at hf; aesop
       | succ j ih =>
-        have := hf (Fin.natAdd (n + 2) (Fin.castSucc j.succ))
-        rw [sum_ZColumn_mid] at this <;> norm_num at *
-        refine (eq_zero_iff_eq_zero_of_add_eq_zero this).mp ih
+        have hcol := hf (Fin.natAdd (n + 2) (Fin.castSucc j.succ))
+        rw [sum_ZColumn_mid] at hcol
+        · refine (eq_zero_iff_eq_zero_of_add_eq_zero hcol).mp ih
+        · have hjlt : (j : ℕ) < n := j.isLt
+          change 1 ≤ (j : ℕ) + 1
+          omega
+        · have hjlt : (j : ℕ) < n := j.isLt
+          change (j : ℕ) + 1 ≤ n
+          omega
     ext i; specialize h_zero ( Fin.cast ( generatorsList_length n ) i ) ; aesop;
   rw [ Fintype.linearIndependent_iff ];
   intro g hg i

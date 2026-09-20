@@ -257,7 +257,8 @@ lemma commutes_iff_even_anticommutes (p q : NQubitPauliGroupElement n) :
         erw [ Fin.val_mk ];
         induction Exists.choose (even_iff_two_dvd.mp h_even) with
         | zero => simp_all [nsmulRec];
-        | succ k ih => simp_all [nsmulRec_two_mul_two_eq_zero]
+        | succ k _ih =>
+            simpa using congrArg Fin.val (nsmulRec_two_mul_two_eq_zero (k + 1)).symm
     exact (commutes_iff_mulOp_phasePower p q).mpr h_cancel
 
 /-!
